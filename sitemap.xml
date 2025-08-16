@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Home -->
   <url>
-    <loc>https://YOURDOMAIN.com/</loc>
+    <loc>https://www.krishnasathvik.com/</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
@@ -10,7 +10,7 @@
 
   <!-- Resume PDF -->
   <url>
-    <loc>https://YOURDOMAIN.com/resume/Krishna_Sathvik_Resume.pdf</loc>
+    <loc>https://www.krishnasathvik.com/resume/Krishna_Sathvik_Resume.pdf</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.80</priority>

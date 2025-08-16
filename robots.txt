@@ -4,5 +4,5 @@
 User-agent: *
 Disallow:
 
-# Sitemap for better indexing
-Sitemap: https://YOURDOMAIN.com/sitemap.xml
+# Sitemap location
+Sitemap: https://www.krishnasathvik.com/sitemap.xml
