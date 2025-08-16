@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Krishna Sathvik — Senior Data Engineer</title>
+  <meta name="description" content="Senior Data Engineer building real-time, cost-efficient data platforms on Azure, Databricks, Kafka & Snowflake." />
+
+  <!-- Fonts: Inter + Plus Jakarta (display for headings) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        container: { center: true, padding: '1rem', screens: { lg:'1024px', xl:'1200px' } },
+        extend: {
+          fontFamily: { sans: ['Inter','system-ui','Segoe UI','Arial'] },
+          colors: { ks:{ green:'#7ED957', slate:'#0B0F17', card:'#0F1422' } },
+          backgroundImage: { 'ks-gradient':'linear-gradient(135deg, rgba(126,217,87,.18), rgba(126,217,87,0) 60%)' }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="icon" href="favicon.ico" />
+
+  <!-- small inline nudge to ensure headings use Plus Jakarta even if main.css is cached -->
+  <style>
+    h1,h2,h3,.section-title{font-family:'Plus Jakarta Sans',Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;letter-spacing:-.02em}
+  </style>
+</head>
+<body class="bg-ks-slate text-slate-100">
+
+<!-- NAV -->
+<header class="fixed inset-x-0 top-0 z-50 backdrop-blur bg-black/25 border-b border-white/5">
+  <nav class="container py-3 flex items-center justify-between">
+    <a href="#home" class="flex items-center gap-3">
+      <img src="img/logo.png" alt="KS" class="h-8 w-8 rounded-md" />
+      <span class="font-extrabold tracking-tight">KS Portfolio</span>
+    </a>
+    <button id="navBtn" class="md:hidden p-2" aria-label="menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <ul id="navList" class="hidden md:flex gap-6 text-slate-300">
+      <li><a class="hover:text-white" href="#skills">Skills</a></li>
+      <li><a class="hover:text-white" href="#experience">Experience</a></li>
+      <li><a class="hover:text-white" href="#projects">Projects</a></li>
+      <li><a class="hover:text-white" href="#education">Education</a></li>
+      <li><a class="hover:text-white" href="#publications">Publications</a></li>
+      <li><a class="hover:text-white" href="#certs">Certs</a></li>
+      <li><a class="hover:text-white" href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <ul id="navDrawer" class="hidden md:hidden container pb-4 space-y-2">
+    <li><a class="block py-2 text-slate-300 hover:text-white" href="#skills">Skills</a></li>
+    <li><a class="block py-2 text-slate-300 hover:text-white" href="#experience">Experience</a></li>
+    <li><a class="block py-2 text-slate-300 hover:text-white" href="#projects">Projects</a></li>
+    <li><a class="block py-2 text-slate-300 hover:text-white" href="#education">Education</a></li>
+    <li><a class="block py-2 text-slate-300 hover:text-white" href="#publications">Publications</a></li>
+    <li><a class="block py-2 text-slate-300 hover:text-white" href="#certs">Certs</a></li>
+    <li><a class="block py-2 text-slate-300 hover:text-white" href="#contact">Contact</a></li>
+  </ul>
+</header>
+
+<!-- HERO -->
+<section id="home" class="pt-28">
+  <div class="container">
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <!-- LEFT: intro -->
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ks-gradient text-ks-green text-xs mb-5 ring-1 ring-ks-green/25">
+          Open to opportunities
+        </div>
+        <h1 class="text-4xl sm:text-6xl font-extrabold leading-[1.05]">
+          Krishna Sathvik<br/>Mantripragada
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-300">
+          Senior Data Engineer — Azure · Databricks · Kafka · Snowflake
+        </p>
+
+        <!-- Resume summary -->
+        <p class="mt-5 text-slate-300">
+          Senior Data Engineer with 6+ years building scalable data infrastructure and analytics solutions across healthcare and enterprise environments.
+          Skilled in Azure, AWS, Python, and the modern data stack (Databricks, Synapse, Power BI). Proven track record in delivering predictive analytics,
+          automated reporting, and actionable insights that improve operational efficiency, forecasting accuracy, and decision-making across large-scale data ecosystems.
+        </p>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="resume/Krishna_Sathvik_Resume.pdf" class="btn-primary">Download Resume</a>
+          <a href="#contact" class="btn-ghost">Contact Me</a>
+          <a href="https://github.com/KrishnaSathvik" target="_blank" rel="noopener" class="btn-ghost">GitHub</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: glass card with BIG cert badges -->
+      <aside class="relative">
+        <div class="glass rounded-2xl p-6 sm:p-8 h-full min-h-[320px] shadow-xl shadow-black/40">
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
+            <div class="cert-tile">
+              <img
+                src="img/certs/azure-ai-engineer.png"
+                onerror="this.onerror=null;this.src='img/azure-ai-engineer.png';"
+                alt="Microsoft Certified: Azure AI Engineer Associate"
+                class="cert-badge"
+                loading="lazy"
+              />
+            </div>
+            <div class="cert-tile">
+              <img
+                src="img/certs/azure-data-engineer.png"
+                onerror="this.onerror=null;this.src='img/azure-data-engineer.png';"
+                alt="Microsoft Certified: Azure Data Engineer Associate"
+                class="cert-badge"
+                loading="lazy"
+              />
+            </div>
+            <div class="cert-tile">
+              <img
+                src="img/certs/oreilly-chatgpt-data-analysis.png"
+                onerror="this.onerror=null;this.src='img/oreilly-chatgpt-data-analysis.png';"
+                alt="O’Reilly ChatGPT Data Analysis"
+                class="cert-badge"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- subtle backdrop glow -->
+        <div class="pointer-events-none absolute -inset-6 -z-10 bg-ks-gradient blur-3xl rounded-[1.75rem]"></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="mt-20">
+  <div class="container">
+    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Skills</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="glass card p-6"><h3 class="font-semibold mb-2">Data Engineering & ETL</h3><p class="text-slate-300 text-sm">dbt, Azure Data Factory, Airflow, Data Orchestration, ETL Pipelines</p></div>
+      <div class="glass card p-6"><h3 class="font-semibold mb-2">AI & ML</h3><p class="text-slate-300 text-sm">Predictive Modeling, Forecasting, Anomaly Detection, Azure Machine Learning</p></div>
+      <div class="glass card p-6"><h3 class="font-semibold mb-2">Cloud & Databases</h3><p class="text-slate-300 text-sm">Azure, AWS, Snowflake, Redshift, BigQuery, PostgreSQL, MySQL, Oracle</p></div>
+      <div class="glass card p-6"><h3 class="font-semibold mb-2">DevOps & Automation</h3><p class="text-slate-300 text-sm">Workflow Automation, CI/CD for Data, Data Quality Monitoring</p></div>
+      <div class="glass card p-6"><h3 class="font-semibold mb-2">BI & Visualization</h3><p class="text-slate-300 text-sm">Power BI, Tableau, Looker</p></div>
+      <div class="glass card p-6"><h3 class="font-semibold mb-2">Programming Languages</h3><p class="text-slate-300 text-sm">SQL, Python, R</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="mt-20">
+  <div class="container">
+    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Experience</h2>
+
+    <div class="space-y-6">
+
+      <!-- Walgreens -->
+      <article class="glass card rounded-2xl p-6">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
+          <h3 class="font-semibold">Data Engineer | Walgreens Boots Alliance – Chicago, IL</h3>
+          <span class="text-sm text-slate-400">Feb 2022 – Present</span>
+        </div>
+        <ul class="exp-plain list-disc pl-5 mt-4 space-y-2 leading-relaxed text-slate-300">
+          <li>Process 10+ TB of healthcare retail data monthly with sub-second query performance by building scalable pipelines in Azure Databricks, Azure SQL Database, and Azure Data Factory for real-time executive dashboards</li>
+          <li>Reduce query execution costs by 22% while integrating 15+ data sources by architecting optimized ETL workflows in Azure Synapse Analytics across DEV, SIT, UAT, and PROD environments</li>
+          <li>Eliminate 30+ hours of manual work weekly and improve workflow efficiency by 30% by creating reusable Python and SQL automation frameworks enabling real-time analytics</li>
+          <li>Accelerate deployment cycles by 40% through CI/CD pipeline implementation in Azure DevOps, enhancing KPI tracking and data governance across healthcare analytics platforms</li>
+        </ul>
+      </article>
+
+      <!-- CVS -->
+      <article class="glass card rounded-2xl p-6">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
+          <h3 class="font-semibold">Analytics Engineer | CVS – Denton, TX</h3>
+          <span class="text-sm text-slate-400">Oct 2020 – Dec 2021</span>
+        </div>
+        <ul class="exp-plain list-disc pl-5 mt-4 space-y-2 leading-relaxed text-slate-300">
+          <li>Designed and deployed Python and SQL-based ETL workflows processing 7+ million sales and financial records, increasing data accuracy by 16–35% and enhancing reliability of executive reporting and ML models</li>
+          <li>Automated integration workflows between on-premises systems and Oracle Cloud, reducing manual processing by 31% and enabling real-time insights in Power BI and Tableau dashboards across multiple business units</li>
+          <li>Re-engineered legacy SQL queries and migrated business logic to Python scripts, improving scalability, performance, and data consistency across 8+ enterprise databases</li>
+          <li>Built Azure ML forecasting models leveraging 5+ years of historical trends, increasing budget and inventory forecast accuracy by 16% and supporting enterprise-wide resource allocation decisions</li>
+        </ul>
+      </article>
+
+      <!-- McKesson -->
+      <article class="glass card rounded-2xl p-6">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
+          <h3 class="font-semibold">Data Science Intern | McKesson – Denton, TX</h3>
+          <span class="text-sm text-slate-400">Mar 2020 – Sep 2020</span>
+        </div>
+        <ul class="exp-plain list-disc pl-5 mt-4 space-y-2 leading-relaxed text-slate-300">
+          <li>Developed Python scripts to clean, preprocess, and analyze 2+ million prescription and sales records, improving data readiness by 22% for downstream analytics, forecasting models, and business intelligence initiatives</li>
+          <li>Created and tested Azure ML models to predict prescription demand, achieving a 14% improvement in forecast accuracy over baseline methods and supporting supply chain and inventory management teams</li>
+          <li>Designed and deployed Tableau dashboards visualizing patient behavior and prescription trends, enabling targeted decision-making for pilot business units and improving stakeholder engagement with data insights</li>
+          <li>Partnered with data engineering team to integrate model outputs into ETL workflows, establishing automation foundations later scaled at CVS to support enterprise-wide forecasting and analytics pipelines</li>
+        </ul>
+      </article>
+
+      <!-- Inditek -->
+      <article class="glass card rounded-2xl p-6">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
+          <h3 class="font-semibold">Software Developer | Inditek Pioneer Solutions – Hyderabad, India</h3>
+          <span class="text-sm text-slate-400">Jan 2019 – Dec 2019</span>
+        </div>
+        <ul class="exp-plain list-disc pl-5 mt-4 space-y-2 leading-relaxed text-slate-300">
+          <li>Built scalable backend APIs using Python and Django, integrating 10+ user interfaces with optimized database queries processing 100K+ daily transactions, improving overall system performance by 20% and reducing downtime by 15% through critical production fixes</li>
+          <li>Developed a content aggregation and tracking system with advanced database optimization and caching, accelerating data retrieval speed by 71% and enhancing platform responsiveness for 1,000+ users</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- PROJECTS -->
+<section id="projects" class="mt-20">
+  <div class="container">
+    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Projects</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Vehicle Telemetry -->
+      <article class="glass card rounded-2xl overflow-hidden">
+        <div class="tech-cover">
+          <div class="tech-badges">
+            <img src="https://img.shields.io/badge/Apache%20Kafka-231F20?logo=apachekafka&logoColor=white" alt="Kafka">
+            <img src="https://img.shields.io/badge/Apache%20Spark-E25A1C?logo=apachespark&logoColor=white" alt="Spark">
+            <img src="https://img.shields.io/badge/Cassandra-1287B1?logo=apachecassandra&logoColor=white" alt="Cassandra">
+            <img src="https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit">
+            <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python">
+            <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker">
+          </div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold">Vehicle Telemetry Pipeline</h3>
+          <p class="mt-2 text-sm text-slate-300">Kafka + Spark streaming with Cassandra & Streamlit, real-time anomaly detection.</p>
+          <div class="mt-4 flex gap-3">
+            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/vehicle-telemetry-pipeline" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ApplyTrak -->
+      <article class="glass card rounded-2xl overflow-hidden">
+        <div class="tech-cover">
+          <div class="tech-badges">
+            <img src="https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB" alt="React">
+            <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript">
+            <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
+            <img src="https://img.shields.io/badge/PWA-5A0FC8?logo=googlechrome&logoColor=white" alt="PWA">
+            <img src="https://img.shields.io/badge/IndexedDB-4A5568?logo=javascript&logoColor=white" alt="IndexedDB">
+            <img src="https://img.shields.io/badge/Recharts-5F259F?logo=chartdotjs&logoColor=white" alt="Charts">
+          </div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold">ApplyTrak — Job Application Tracker</h3>
+          <p class="mt-2 text-sm text-slate-300">React + TypeScript, analytics & goals, PWA + IndexedDB offline-first.</p>
+          <div class="mt-4 flex gap-3">
+            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/applytrak" target="_blank" rel="noopener">GitHub</a>
+            <a class="text-ks-green hover:underline" href="https://applytrak.com" target="_blank" rel="noopener">Live</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- National Parks Explorer -->
+      <article class="glass card rounded-2xl overflow-hidden">
+        <div class="tech-cover">
+          <div class="tech-badges">
+            <img src="https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB" alt="React">
+            <img src="https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black" alt="Firebase">
+            <img src="https://img.shields.io/badge/Leaflet-199900?logo=leaflet&logoColor=white" alt="Leaflet">
+            <img src="https://img.shields.io/badge/Google%20Cloud-4285F4?logo=googlecloud&logoColor=white" alt="Cloud Functions">
+            <img src="https://img.shields.io/badge/Push%20Notifications-121212?logo=onesignal&logoColor=white" alt="Push">
+            <img src="https://img.shields.io/badge/SEO-0F172A?logo=google&logoColor=white" alt="SEO">
+          </div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold">National Parks Explorer</h3>
+          <p class="mt-2 text-sm text-slate-300">React + Firebase, interactive maps, alerts, events & admin blog.</p>
+          <div class="mt-4 flex gap-3">
+            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/national-parks-explorer" target="_blank" rel="noopener">GitHub</a>
+            <a class="text-ks-green hover:underline" href="https://www.nationalparksexplorerusa.com" target="_blank" rel="noopener">Live</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" class="mt-20">
+  <div class="container">
+    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Education</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <article class="glass card rounded-2xl p-6">
+        <h3 class="font-semibold">Master of Science in Computer Science</h3>
+        <p class="text-slate-300 text-sm">University of North Texas • Denton, TX • 2021</p>
+        <p class="text-slate-300 text-sm mt-2">Focus: Data Science & Analytics</p>
+      </article>
+      <article class="glass card rounded-2xl p-6">
+        <h3 class="font-semibold">Bachelor of Technology in Information Technology</h3>
+        <p class="text-slate-300 text-sm">GITAM • Vizag, India • 2019</p>
+        <p class="text-slate-300 text-sm mt-2">Focus: Software Development & Systems</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications" class="mt-20">
+  <div class="container">
+    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Publications</h2>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Springer chapter -->
+      <article class="glass card rounded-2xl p-6">
+        <a class="font-semibold hover:underline" target="_blank" rel="noopener"
+           href="https://link.springer.com/referenceworkentry/10.1007/978-3-030-72322-4_135-1">
+          AI for Electricity Market Design
+        </a>
+        <p class="text-slate-300 text-sm mt-1">
+          Book Chapter — <span class="text-slate-200">Handbook of Smart Energy Systems</span>, Springer (2023)
+        </p>
+        <p class="text-slate-300 text-sm mt-3">
+          Published chapter on artificial intelligence applications in electricity market design and optimization.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs">
+          <span class="px-2 py-1 rounded bg-white/10">AI</span>
+          <span class="px-2 py-1 rounded bg-white/10">Energy Systems</span>
+          <span class="px-2 py-1 rounded bg-white/10">Optimization</span>
+        </div>
+      </article>
+
+      <!-- Featured Medium article -->
+      <article class="glass card rounded-2xl p-6">
+        <a class="font-semibold hover:underline" target="_blank" rel="noopener"
+           href="https://medium.com/@codebykrishna/optimizing-parallel-computing-architectures-for-big-data-analytics-80eb7272377b">
+          Optimizing Parallel Computing Architectures for Big Data Analytics
+        </a>
+        <p class="text-slate-300 text-sm mt-1">
+          Feature Article — Medium (Dec 2024) • 8 min read
+        </p>
+        <p class="text-slate-300 text-sm mt-3">
+          How to leverage parallel computing to process and analyze data efficiently at scale.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs">
+          <span class="px-2 py-1 rounded bg-white/10">Big Data</span>
+          <span class="px-2 py-1 rounded bg-white/10">Parallel Computing</span>
+          <span class="px-2 py-1 rounded bg-white/10">Performance</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs" class="mt-20">
+  <div class="container">
+    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Certifications</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <a class="glass card rounded-2xl p-5 hover:bg-white/10" target="_blank" rel="noopener"
+         href="https://learn.microsoft.com/en-us/users/krishnamantripragada/credentials/2ca6d7588001cc9f?ref=https%3A%2F%2Fwww.credly.com%2F">
+        <h3 class="font-semibold">Microsoft Azure Data Engineer Associate</h3>
+        <p class="text-slate-300 text-sm mt-1">Active • Credential ID: 2CA6D7588001CC9F</p>
+      </a>
+      <a class="glass card rounded-2xl p-5 hover:bg-white/10" target="_blank" rel="noopener"
+         href="https://learn.microsoft.com/en-us/users/krishnamantripragada/credentials/61b6fe700a01ec6?ref=https%3A%2F%2Fwww.credly.com%2F">
+        <h3 class="font-semibold">Microsoft Azure AI Engineer Associate</h3>
+        <p class="text-slate-300 text-sm mt-1">Active • Credential ID: 61B6FE700A01EC6</p>
+      </a>
+      <a class="glass card rounded-2xl p-5 hover:bg-white/10" target="_blank" rel="noopener"
+         href="https://www.credly.com/users/krishna-sathvik-mantripragada/badges">
+        <h3 class="font-semibold">O’Reilly Generative AI with OpenAI API</h3>
+        <p class="text-slate-300 text-sm mt-1">Active • 2025</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="mt-20 mb-24">
+  <div class="container">
+    <div class="glass card rounded-3xl p-6 md:p-8">
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h2 class="section-title text-2xl sm:text-3xl font-extrabold">Get in touch</h2>
+          <p class="mt-3 text-slate-300">Prefer email? <a class="text-ks-green hover:underline" href="mailto:krishnasathvikm@gmail.com">krishnasathvikm@gmail.com</a></p>
+          <ul class="mt-6 space-y-2 text-slate-300">
+            <li>📍 Chicago, IL</li>
+            <li>🔗 <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://www.linkedin.com/in/krishnasathvik/">LinkedIn</a> • <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik">GitHub</a> • <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://medium.com/@codebykrishna">Medium</a></li>
+          </ul>
+        </div>
+        <form id="contactForm" class="space-y-3">
+          <input required name="name" placeholder="Your Name" class="input" />
+          <input required type="email" name="email" placeholder="Your Email" class="input" />
+          <input required name="subject" placeholder="Subject" class="input" />
+          <textarea required name="message" rows="5" placeholder="Message" class="input"></textarea>
+          <button class="btn-primary w-full md:w-auto">Send Message</button>
+          <p id="formMsg" class="text-sm text-slate-300"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="text-center text-slate-400 pb-10">
+  © <span id="yr"></span> Krishna Sathvik • Built with Tailwind • Deployed on Vercel
+</footer>
+
+<!-- EmailJS + site script -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // mobile nav
+  const btn=document.getElementById('navBtn');const drawer=document.getElementById('navDrawer');
+  btn?.addEventListener('click',()=>drawer.classList.toggle('hidden'));
+  drawer?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>drawer.classList.add('hidden')));
+  // year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  // EmailJS (replace with your actual IDs)
+  emailjs.init({ publicKey: 'Y4GV402rZ348jDsIl' }); // <-- replace
+  const form=document.getElementById('contactForm'); const msg=document.getElementById('formMsg');
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault(); msg.textContent='Sending…';
+    const data={ name:form.name.value, email:form.email.value, subject:form.subject.value, message:form.message.value };
+    try{
+      await emailjs.send('service_z4k2e9o','template_1leyq7q',data); // <-- replace
+      msg.textContent='Thanks! I’ll reply soon.'; form.reset();
+    }catch(err){ msg.textContent='Something went wrong. Try again or email me directly.'; }
+  });
+</script>
+</body>
+</html>
