@@ -1,10 +1,9 @@
 {
   "cleanUrls": true,
   "headers": [
-    { "source": "/(img|css)/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
+    {
+      "source": "/(icon\\.png|icon-512\\.png|icon-maskable\\.png|favicon\\.ico|icon\\.svg)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
   ]
 }
