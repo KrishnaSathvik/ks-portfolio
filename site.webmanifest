@@ -1,29 +1,14 @@
 {
-  "id": "/",
   "name": "Krishna Sathvik — Senior Data Engineer",
   "short_name": "KS Portfolio",
-  "description": "Portfolio of Krishna Sathvik Mantripragada: Senior Data Engineer building real-time, cost-efficient data platforms on Azure, Databricks, Kafka & Snowflake.",
-  "lang": "en-US",
-  "dir": "ltr",
-
-  "start_url": "/?utm_source=pwa",
-  "scope": "/",
+  "start_url": "/?utm_source=homescreen",
   "display": "standalone",
-
   "background_color": "#0B0F17",
   "theme_color": "#0B0F17",
-
   "icons": [
-    { "src": "/icon.png",            "sizes": "192x192", "type": "image/png" },
-    { "src": "/icon-512.png",        "sizes": "512x512", "type": "image/png" },
-    { "src": "/icon-maskable.png",   "sizes": "512x512", "type": "image/png", "purpose": "maskable any" }
-  ],
-
-  "shortcuts": [
-    { "name": "Skills",      "short_name": "Skills",      "url": "/#skills",      "icons": [{ "src": "/icon.png", "sizes": "192x192", "type": "image/png" }] },
-    { "name": "Experience",  "short_name": "Experience",  "url": "/#experience",  "icons": [{ "src": "/icon.png", "sizes": "192x192", "type": "image/png" }] },
-    { "name": "Projects",    "short_name": "Projects",    "url": "/#projects",    "icons": [{ "src": "/icon.png", "sizes": "192x192", "type": "image/png" }] }
-  ],
-
-  "categories": ["portfolio", "productivity"]
+    { "src": "/icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" },
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "/icon-maskable.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+  ]
 }

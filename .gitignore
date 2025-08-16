@@ -1,5 +1,10 @@
+".idea/
+*.iml
 node_modules/
+.vercel/
+.env
 .DS_Store
-.vercel
 dist/
 build/
+public/build/
+/coverage"

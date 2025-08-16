@@ -2,41 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/icon.svg">
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="apple-touch-icon" href="/icon-512.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#0B0F17">
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0B0F17" />
+  <meta name="robots" content="index,follow" />
+
   <title>Krishna Sathvik — Senior Data Engineer</title>
   <meta name="description" content="Senior Data Engineer building real-time, cost-efficient data platforms on Azure, Databricks, Kafka & Snowflake." />
+  <link rel="canonical" href="https://www.krishnasathvik.com/" />
 
-  <!-- Fonts: Inter + Plus Jakarta (display for headings) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- App icons -->
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/icon-512.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Social cards -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Krishna Sathvik — Senior Data Engineer" />
+  <meta property="og:description" content="Real-time, cost-efficient data platforms on Azure, Databricks, Kafka & Snowflake." />
+  <meta property="og:url" content="https://www.krishnasathvik.com/" />
+  <meta property="og:image" content="/icon-512.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Krishna Sathvik — Senior Data Engineer" />
+  <meta name="twitter:description" content="Real-time, cost-efficient data platforms on Azure, Databricks, Kafka & Snowflake." />
+  <meta name="twitter:image" content="/icon-512.png" />
+
+  <!-- Fonts: Inter + Plus Jakarta (for headings) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <!-- Tailwind (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        container: { center: true, padding: '1rem', screens: { lg:'1024px', xl:'1200px' } },
+        container: { center: true, padding: '1rem', screens: { lg: '1024px', xl: '1200px' } },
         extend: {
-          fontFamily: { sans: ['Inter','system-ui','Segoe UI','Arial'] },
-          colors: { ks:{ green:'#7ED957', slate:'#0B0F17', card:'#0F1422' } },
-          backgroundImage: { 'ks-gradient':'linear-gradient(135deg, rgba(126,217,87,.18), rgba(126,217,87,0) 60%)' }
+          fontFamily: { sans: ['Inter', 'system-ui', 'Segoe UI', 'Arial'] },
+          colors: { ks: { green: '#7ED957', slate: '#0B0F17', card: '#0F1422' } },
+          backgroundImage: { 'ks-gradient': 'linear-gradient(135deg, rgba(126,217,87,.18), rgba(126,217,87,0) 60%)' }
         }
       }
     }
   </script>
 
-  <link rel="stylesheet" href="css/main.css" />
-  <link rel="icon" href="favicon.ico" />
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css" />
 
-  <!-- small inline nudge to ensure headings use Plus Jakarta even if main.css is cached -->
+  <!-- Ensure headings pick Plus Jakarta even if CSS is cached -->
   <style>
-    h1,h2,h3,.section-title{font-family:'Plus Jakarta Sans',Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;letter-spacing:-.02em}
+    h1, h2, h3, .section-title {
+      font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+      letter-spacing: -.02em;
+    }
   </style>
 </head>
 <body class="bg-ks-slate text-slate-100">
@@ -394,19 +414,37 @@
       <div class="grid md:grid-cols-2 gap-8">
         <div>
           <h2 class="section-title text-2xl sm:text-3xl font-extrabold">Get in touch</h2>
-          <p class="mt-3 text-slate-300">Prefer email? <a class="text-ks-green hover:underline" href="mailto:krishnasathvikm@gmail.com">krishnasathvikm@gmail.com</a></p>
+          <p class="mt-3 text-slate-300">
+            Prefer email?
+            <a class="text-ks-green hover:underline" href="mailto:krishnasathvikm@gmail.com">krishnasathvikm@gmail.com</a>
+          </p>
           <ul class="mt-6 space-y-2 text-slate-300">
             <li>📍 Chicago, IL</li>
-            <li>🔗 <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://www.linkedin.com/in/krishnasathvik/">LinkedIn</a> • <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik">GitHub</a> • <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://medium.com/@codebykrishna">Medium</a></li>
+            <li>
+              🔗
+              <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://www.linkedin.com/in/krishnasathvik/">LinkedIn</a>
+              •
+              <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik">GitHub</a>
+              •
+              <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://medium.com/@codebykrishna">Medium</a>
+            </li>
           </ul>
         </div>
+
         <form id="contactForm" class="space-y-3">
           <input required name="name" placeholder="Your Name" class="input" />
           <input required type="email" name="email" placeholder="Your Email" class="input" />
           <input required name="subject" placeholder="Subject" class="input" />
+          <input name="company" placeholder="Company (optional)" class="input" />
+          <input name="reason" placeholder="Contact Reason (e.g., Job, Partnership)" class="input" />
+
+          <!-- hidden context + honeypot -->
+          <input type="hidden" name="page_url" value="" />
+          <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" />
+
           <textarea required name="message" rows="5" placeholder="Message" class="input"></textarea>
-          <button class="btn-primary w-full md:w-auto">Send Message</button>
-          <p id="formMsg" class="text-sm text-slate-300"></p>
+          <button type="submit" class="btn-primary w-full md:w-auto">Send Message</button>
+          <p id="formMsg" class="text-sm text-slate-300" aria-live="polite"></p>
         </form>
       </div>
     </div>
@@ -421,22 +459,66 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
   // mobile nav
-  const btn=document.getElementById('navBtn');const drawer=document.getElementById('navDrawer');
-  btn?.addEventListener('click',()=>drawer.classList.toggle('hidden'));
-  drawer?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>drawer.classList.add('hidden')));
+  const btn = document.getElementById('navBtn');
+  const drawer = document.getElementById('navDrawer');
+  btn?.addEventListener('click', () => drawer.classList.toggle('hidden'));
+  drawer?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => drawer.classList.add('hidden')));
+
   // year
   document.getElementById('yr').textContent = new Date().getFullYear();
-  // EmailJS (replace with your actual IDs)
-  emailjs.init({ publicKey: 'Y4GV402rZ348jDsIl' }); // <-- replace
-  const form=document.getElementById('contactForm'); const msg=document.getElementById('formMsg');
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault(); msg.textContent='Sending…';
-    const data={ name:form.name.value, email:form.email.value, subject:form.subject.value, message:form.message.value };
-    try{
-      await emailjs.send('service_z4k2e9o','template_1leyq7q',data); // <-- replace
-      msg.textContent='Thanks! I’ll reply soon.'; form.reset();
-    }catch(err){ msg.textContent='Something went wrong. Try again or email me directly.'; }
-  });
+
+  // CONTACT form + EmailJS
+  (function () {
+    const form = document.getElementById('contactForm');
+    const msg  = document.getElementById('formMsg');
+    const btn  = form.querySelector('button[type="submit"]');
+
+    // set page URL for context
+    form.page_url.value = location.href;
+
+    // init EmailJS (replace with your actual Public Key)
+    emailjs.init({ publicKey: 'Y4GV402rZ348jDsIl' });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // basic honeypot
+      if (form.website.value) {
+        msg.textContent = 'Blocked by spam filter.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      msg.textContent = '';
+
+      const payload = {
+        from_name:   form.name.value.trim(),
+        from_email:  form.email.value.trim(),
+        subject:     form.subject.value.trim(),
+        company:     (form.company.value || '—').trim(),
+        reason:      (form.reason.value  || '—').trim(),
+        message:     form.message.value.trim(),
+        page_url:    form.page_url.value,
+        submitted_at: new Date().toLocaleString()
+      };
+
+      try {
+        // Replace with your Service ID and NEW template ID
+        await emailjs.send('service_z4k2e9o', 'template_portfolio', payload);
+        msg.textContent = 'Thanks! I’ll reply soon.';
+        btn.textContent = 'Sent ✓';
+        setTimeout(() => { btn.textContent = 'Send Message'; btn.disabled = false; }, 1200);
+        form.reset();
+        form.page_url.value = location.href; // keep context after reset
+      } catch (err) {
+        console.error(err);
+        msg.textContent = 'Something went wrong. Try again or email me directly.';
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+      }
+    });
+  })();
 </script>
 </body>
 </html>
