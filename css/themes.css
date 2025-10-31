@@ -1,0 +1,320 @@
+/* ===========================
+   Light & Dark Theme - CSS Variables
+   =========================== */
+
+:root,
+[data-theme="dark"] {
+  /* Colors - Dark Theme (Default) */
+  --color-bg-primary: #0B0F17; /* ks-slate */
+  --color-bg-secondary: rgba(255, 255, 255, 0.03);
+  --color-bg-card: rgba(15, 20, 34, 0.55);
+  --color-bg-overlay: rgba(255, 255, 255, 0.1);
+  
+  --color-text-primary: rgba(255, 255, 255, 0.9);
+  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-text-tertiary: rgba(255, 255, 255, 0.6);
+  
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  
+  --color-accent: #7ED957; /* Your brand green */
+  --color-accent-hover: rgba(126, 217, 87, 0.9);
+  
+  --color-button-primary-bg: #000000; /* Black background */
+  --color-button-primary-text: #ffffff; /* White text */
+  --color-button-secondary-bg: #000000; /* Black background */
+  --color-button-secondary-text: #ffffff; /* White text */
+}
+
+[data-theme="light"] {
+  /* Colors - Light Theme */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: rgba(0, 0, 0, 0.03);
+  --color-bg-card: rgba(255, 255, 255, 0.95);
+  --color-bg-overlay: rgba(0, 0, 0, 0.05);
+  
+  --color-text-primary: #0B0F17; /* Much darker for better contrast */
+  --color-text-secondary: #1e293b; /* slate-800 */
+  --color-text-tertiary: #475569; /* slate-600 */
+  
+  --color-border: rgba(0, 0, 0, 0.12);
+  --color-border-subtle: rgba(0, 0, 0, 0.08);
+  
+  --color-accent: #059669; /* Darker green for better contrast in light theme */
+  --color-accent-hover: #047857;
+  
+  --color-button-primary-bg: #0f172a; /* Dark slate/navy - matches text primary */
+  --color-button-primary-text: #ffffff; /* White text */
+  --color-button-secondary-bg: #0f172a; /* Same dark slate as primary */
+  --color-button-secondary-text: #ffffff; /* White text for ghost buttons */
+}
+
+/* Base styles */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body {
+  background-color: var(--color-bg-primary) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
+}
+
+/* Cards */
+.card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--color-button-primary-bg);
+  color: var(--color-button-primary-text);
+  border: 1px solid var(--color-border);
+  font-weight: 500;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: var(--color-button-secondary-bg);
+  color: var(--color-button-secondary-text);
+  border: 1px solid var(--color-border);
+  font-weight: 500;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-bg-overlay);
+  transform: translateY(-1px);
+}
+
+/* Inputs */
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(126, 217, 87, 0.1);
+}
+
+/* Links */
+a {
+  color: var(--color-accent);
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+/* Section dividers */
+.section-divider {
+  border-top: 1px solid var(--color-border);
+}
+
+/* Text utilities */
+.text-primary {
+  color: var(--color-text-primary) !important;
+}
+
+.text-secondary {
+  color: var(--color-text-secondary) !important;
+}
+
+.text-tertiary {
+  color: var(--color-text-tertiary) !important;
+}
+
+/* Background utilities */
+.bg-primary {
+  background-color: var(--color-bg-primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--color-bg-secondary) !important;
+}
+
+.bg-card {
+  background-color: var(--color-bg-card) !important;
+}
+
+.bg-overlay {
+  background-color: var(--color-bg-overlay) !important;
+}
+
+.text-accent {
+  color: var(--color-accent) !important;
+}
+
+/* Border utilities */
+.border-primary {
+  border-color: var(--color-border) !important;
+}
+
+.border-subtle {
+  border-color: var(--color-border-subtle) !important;
+}
+
+/* Ensure all text elements inherit theme colors */
+p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th, label, small {
+  color: inherit;
+}
+
+/* Light theme - ensure all text is dark and visible */
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* Light theme text overrides - target common elements */
+[data-theme="light"] p,
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6,
+[data-theme="light"] span:not(.btn-primary):not(.btn-ghost),
+[data-theme="light"] div:not(.btn-primary):not(.btn-ghost),
+[data-theme="light"] li,
+[data-theme="light"] td,
+[data-theme="light"] th,
+[data-theme="light"] label {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="light"] .text-slate-300,
+[data-theme="light"] .text-slate-300 * {
+  color: var(--color-text-secondary) !important;
+}
+
+[data-theme="light"] .text-slate-400,
+[data-theme="light"] .text-slate-400 * {
+  color: var(--color-text-tertiary) !important;
+}
+
+/* Dark theme buttons - black background with white text */
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] .btn-primary *,
+[data-theme="dark"] .btn-ghost,
+[data-theme="dark"] .btn-ghost * {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="dark"] a.btn-primary,
+[data-theme="dark"] a.btn-primary *,
+[data-theme="dark"] a.btn-ghost,
+[data-theme="dark"] a.btn-ghost * {
+  background: #000000 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Light theme buttons - dark slate background with white text */
+[data-theme="light"] .btn-primary,
+[data-theme="light"] .btn-primary *,
+[data-theme="light"] .btn-ghost,
+[data-theme="light"] .btn-ghost * {
+  color: #ffffff !important;
+  background: #0f172a !important;
+  font-weight: 600 !important; /* Bold text */
+}
+
+/* Dark theme - links use same text color as rest of content */
+[data-theme="dark"] a:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.text-primary):not(.text-secondary):not(.text-tertiary):not(nav a) {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] a:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.text-primary):not(.text-secondary):not(.text-tertiary):not(nav a):hover {
+  color: var(--color-text-primary) !important;
+  opacity: 0.8;
+}
+
+/* Dark theme - text-ks-green should match regular text */
+[data-theme="dark"] .text-ks-green,
+[data-theme="dark"] .text-ks-green * {
+  color: var(--color-text-primary) !important;
+}
+
+/* Light theme - all links should be black, not green */
+[data-theme="light"] a:not(.btn-primary):not(.btn-ghost):not(nav a) {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="light"] a:not(.btn-primary):not(.btn-ghost):not(nav a):hover {
+  color: var(--color-text-primary) !important;
+  opacity: 0.8;
+}
+
+/* Light theme - ensure button links have white text */
+[data-theme="light"] a.btn-primary,
+[data-theme="light"] a.btn-primary *,
+[data-theme="light"] a.btn-ghost,
+[data-theme="light"] a.btn-ghost * {
+  color: #ffffff !important;
+  font-weight: 600 !important; /* Bold text */
+}
+
+/* Light theme - navigation links should be dark */
+[data-theme="light"] nav a:not(.btn-primary):not(.btn-ghost) {
+  color: var(--color-text-secondary) !important;
+}
+
+[data-theme="light"] nav a:not(.btn-primary):not(.btn-ghost):hover {
+  color: var(--color-text-primary) !important;
+}
+
+/* Force text colors to override Tailwind defaults */
+.text-primary,
+.text-primary *,
+[class*="text-primary"] {
+  color: var(--color-text-primary) !important;
+}
+
+.text-secondary,
+.text-secondary *,
+[class*="text-secondary"] {
+  color: var(--color-text-secondary) !important;
+}
+
+.text-tertiary,
+.text-tertiary *,
+[class*="text-tertiary"] {
+  color: var(--color-text-tertiary) !important;
+}

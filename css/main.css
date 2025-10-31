@@ -8,15 +8,39 @@ body {
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
   letter-spacing: .01em;
   font-feature-settings: "ss01","case","calt","liga","tnum";
-  background-color: #0B0F17; /* fallback if Tailwind doesn't load */
-  color: #e5e7eb;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+/* Specific overrides for light theme text */
+[data-theme="light"] body {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="light"] p,
+[data-theme="light"] span:not(.btn-primary):not(.btn-ghost),
+[data-theme="light"] div:not(.btn-primary):not(.btn-ghost),
+[data-theme="light"] li {
+  color: var(--color-text-primary) !important;
 }
 h1, h2, h3, .section-title {
   font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
   letter-spacing: -.02em;
+  color: var(--color-text-primary);
 }
 h1 { font-weight: 800; }
 h2, h3 { font-weight: 700; }
+
+/* Ensure headings are dark in light theme */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6,
+[data-theme="light"] .section-title {
+  color: #0B0F17 !important;
+}
 
 /* --- Minor utilities --- */
 .list-tight li{ margin-bottom:.4rem; }
@@ -38,10 +62,16 @@ h2, h3 { font-weight: 700; }
 
 /* --- Glass card + subtle border glow --- */
 .glass{
-  background: rgba(15,20,34,.55);
-  border: 1px solid rgba(255,255,255,.06);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-subtle);
   backdrop-filter: blur(10px);
   border-radius: 1.25rem;
+}
+
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .card { position: relative; overflow: hidden; border-radius: inherit; }
 .card::before{
@@ -54,32 +84,98 @@ h2, h3 { font-weight: 700; }
 
 /* --- Buttons --- */
 .btn-primary{
-  background:#7ED957; color:#0b0f17; font-weight:600;
+  background: var(--color-button-primary-bg); 
+  color: var(--color-button-primary-text); 
+  font-weight:600;
   padding:.85rem 1.25rem; border-radius:.85rem;
   transition:.2s transform, .2s box-shadow, .2s opacity;
   display:inline-flex; align-items:center; justify-content:center;
 }
-.btn-primary:hover{ opacity:.95; transform: translateY(-1px); box-shadow: 0 10px 24px -10px rgba(126,217,87,.55); }
+.btn-primary:hover{ 
+  opacity:.95; 
+  transform: translateY(-1px); 
+  box-shadow: 0 10px 24px -10px rgba(126,217,87,.55); 
+}
+
+/* Dark theme - all buttons have black background with white text */
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] .btn-primary *,
+[data-theme="dark"] .btn-ghost,
+[data-theme="dark"] .btn-ghost * {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="dark"] .btn-primary:hover,
+[data-theme="dark"] .btn-primary:hover *,
+[data-theme="dark"] .btn-ghost:hover,
+[data-theme="dark"] .btn-ghost:hover * {
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] a.btn-primary,
+[data-theme="dark"] a.btn-primary *,
+[data-theme="dark"] a.btn-ghost,
+[data-theme="dark"] a.btn-ghost * {
+  background: #000000 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
 .btn-primary:focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(126,217,87,.35); }
 
 .btn-ghost{
-  background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.08);
-  color:#e5e7eb;
+  background: var(--color-button-secondary-bg);
+  border:1px solid var(--color-border);
+  color: var(--color-button-secondary-text);
+  font-weight: 600; /* Bold text */
   padding:.85rem 1.25rem; border-radius:.85rem;
   display:inline-flex; align-items:center; justify-content:center;
   transition: background .2s ease, transform .2s ease;
 }
-.btn-ghost:hover{ background: rgba(255,255,255,.09); transform: translateY(-1px); }
+.btn-ghost:hover{ background: var(--color-bg-overlay); transform: translateY(-1px); }
+
+/* Light theme - all buttons have dark slate background with white text */
+[data-theme="light"] .btn-primary,
+[data-theme="light"] .btn-primary *,
+[data-theme="light"] .btn-ghost,
+[data-theme="light"] .btn-ghost * {
+  color: #ffffff !important;
+  background: #0f172a !important;
+  border-color: #0f172a !important;
+  font-weight: 600 !important; /* Bold text */
+}
+
+[data-theme="light"] .btn-primary:hover,
+[data-theme="light"] .btn-primary:hover *,
+[data-theme="light"] .btn-ghost:hover,
+[data-theme="light"] .btn-ghost:hover * {
+  background: #1e293b !important; /* Slightly lighter on hover */
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Ensure links styled as buttons also get white text */
+[data-theme="light"] a.btn-primary,
+[data-theme="light"] a.btn-primary *,
+[data-theme="light"] a.btn-ghost,
+[data-theme="light"] a.btn-ghost * {
+  color: #ffffff !important;
+  font-weight: 600 !important; /* Bold text */
+}
 .btn-ghost:focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(126,217,87,.28); }
 
 /* --- Inputs --- */
 .input{
   width:100%; padding: .85rem 1rem; border-radius:.9rem;
-  background: rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.08); color:#e5e7eb;
+  background: var(--color-bg-secondary); 
+  border:1px solid var(--color-border); 
+  color: var(--color-text-primary);
 }
-.input::placeholder{ color:#94a3b8; }
-.input:focus{ outline:none; box-shadow: 0 0 0 3px rgba(126,217,87,.28); border-color: rgba(126,217,87,.35); }
+.input::placeholder{ color: var(--color-text-tertiary); }
+.input:focus{ outline:none; box-shadow: 0 0 0 3px rgba(126,217,87,.28); border-color: var(--color-accent); }
 
 /* --- KPI chips in hero --- */
 .stat-pill{
@@ -168,26 +264,157 @@ h2, h3 { font-weight: 700; }
 
 .tech-cover{
   position: relative;
-  padding-top: 56.25%;              /* 16:9 */
+  min-height: 200px;                /* Ensure sufficient height for badges */
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
-  overflow: hidden;
+  overflow: hidden;                  /* Keep hidden for rounded corners */
   background:
     radial-gradient(120% 80% at -10% -20%, rgba(126,217,87,.24), rgba(126,217,87,0) 60%),
     linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
 }
+@media (min-width: 640px){ .tech-cover{ min-height: 220px; } }
+@media (min-width: 768px){ .tech-cover{ min-height: 240px; } }
+@media (min-width:1024px){ .tech-cover{ min-height: 260px; } }
 .tech-badges{
-  position:absolute; inset:0;
-  display:flex; flex-wrap:wrap; gap:.5rem .6rem;
+  position:absolute; 
+  top: 0; left: 0; right: 0; bottom: 0;
+  display:flex; flex-wrap:wrap; gap:.75rem 1rem;
   align-content:center; justify-content:center;
-  padding:1rem;
+  align-items: center;              /* Center badges vertically */
+  padding:2rem 1.5rem;              /* Increased padding significantly */
+  box-sizing: border-box;           /* Ensure padding is included in dimensions */
 }
 .tech-badges img{
-  height: 26px; border-radius:.5rem; box-shadow:0 6px 18px -8px rgba(0,0,0,.55);
+  height: 32px; border-radius:.5rem; box-shadow:0 6px 18px -8px rgba(0,0,0,.55);
+  transition: transform .2s ease;
 }
-@media (min-width: 640px){ .tech-badges img{ height: 30px; } }
-@media (min-width: 768px){ .tech-badges img{ height: 34px; } }
-@media (min-width:1024px){ .tech-badges img{ height: 36px; } }
+.tech-badges img:hover{ transform: scale(1.05); }
+@media (min-width: 640px){ .tech-badges img{ height: 36px; } }
+@media (min-width: 768px){ .tech-badges img{ height: 40px; } }
+@media (min-width:1024px){ .tech-badges img{ height: 44px; } }
+
+/* ===========================
+   Theme-aware navigation
+   =========================== */
+header {
+  background: var(--color-bg-card);
+  border-color: var(--color-border-subtle);
+}
+
+[data-theme="light"] header {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Theme-aware text colors - Force override Tailwind */
+.text-slate-300,
+.text-slate-300 * {
+  color: var(--color-text-secondary) !important;
+}
+
+.text-slate-100,
+.text-slate-100 *,
+.text-white,
+.text-white * {
+  color: var(--color-text-primary) !important;
+}
+
+.text-slate-400 {
+  color: var(--color-text-tertiary) !important;
+}
+
+/* Light theme - navigation links should be dark, not accent green */
+[data-theme="light"] nav a:not(.btn-primary):not(.btn-ghost) {
+  color: var(--color-text-secondary) !important;
+}
+
+[data-theme="light"] nav a:not(.btn-primary):not(.btn-ghost):hover {
+  color: var(--color-text-primary) !important;
+}
+
+/* Dark theme - text-ks-green should match regular text color */
+[data-theme="dark"] .text-ks-green,
+[data-theme="dark"] .text-ks-green *,
+[data-theme="dark"] p .text-ks-green,
+[data-theme="dark"] span.text-ks-green,
+[data-theme="dark"] div.text-ks-green,
+[data-theme="dark"] a.text-ks-green,
+[data-theme="dark"] a.text-ks-green * {
+  color: var(--color-text-primary) !important;
+}
+
+/* Dark theme - all links should match regular text */
+[data-theme="dark"] section a:not(.btn-primary):not(.btn-ghost):not(nav a),
+[data-theme="dark"] article a:not(.btn-primary):not(.btn-ghost),
+[data-theme="dark"] #publications a,
+[data-theme="dark"] #contact a:not(.btn-primary):not(.btn-ghost) {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] section a:not(.btn-primary):not(.btn-ghost):not(nav a):hover,
+[data-theme="dark"] article a:not(.btn-primary):not(.btn-ghost):hover {
+  color: var(--color-text-primary) !important;
+  opacity: 0.8;
+}
+
+/* Light theme - override text-ks-green class to be black */
+[data-theme="light"] .text-ks-green,
+[data-theme="light"] .text-ks-green *,
+[data-theme="light"] p .text-ks-green,
+[data-theme="light"] span.text-ks-green,
+[data-theme="light"] div.text-ks-green {
+  color: var(--color-text-primary) !important;
+}
+
+/* Light theme - all links (publications, contact, etc.) should be black */
+[data-theme="light"] a.text-ks-green,
+[data-theme="light"] a.text-ks-green *,
+[data-theme="light"] section a:not(.btn-primary):not(.btn-ghost):not(nav a),
+[data-theme="light"] article a:not(.btn-primary):not(.btn-ghost),
+[data-theme="light"] #publications a,
+[data-theme="light"] #contact a:not(.btn-primary):not(.btn-ghost) {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="light"] a.text-ks-green:hover,
+[data-theme="light"] section a:not(.btn-primary):not(.btn-ghost):not(nav a):hover,
+[data-theme="light"] article a:not(.btn-primary):not(.btn-ghost):hover {
+  color: var(--color-text-primary) !important;
+  opacity: 0.8;
+}
+
+/* Theme-aware backgrounds */
+.bg-black\/25 {
+  background-color: var(--color-bg-card) !important;
+}
+
+.border-white\/5 {
+  border-color: var(--color-border-subtle) !important;
+}
+
+/* Ensure all text elements use theme colors */
+[data-theme="light"] p,
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6,
+[data-theme="light"] span,
+[data-theme="light"] div,
+[data-theme="light"] li,
+[data-theme="light"] td,
+[data-theme="light"] th,
+[data-theme="light"] label,
+[data-theme="light"] small {
+  color: var(--color-text-primary);
+}
+
+[data-theme="light"] .text-slate-300,
+[data-theme="light"] .text-slate-300 * {
+  color: var(--color-text-secondary) !important;
+}
 
 /* ===========================
    Accessibility niceties

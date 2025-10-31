@@ -4,7 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark light" />
-  <meta name="theme-color" content="#0B0F17" />
+  <meta name="theme-color" content="#0B0F17" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
   <meta name="robots" content="index,follow" />
 
   <title>Krishna Sathvik — Senior Data Engineer</title>
@@ -49,6 +50,7 @@
   </script>
 
   <!-- Styles -->
+  <link rel="stylesheet" href="/css/themes.css" />
   <link rel="stylesheet" href="/css/main.css" />
 
   <!-- Ensure headings pick Plus Jakarta even if CSS is cached -->
@@ -59,7 +61,7 @@
     }
   </style>
 </head>
-<body class="bg-ks-slate text-slate-100">
+<body>
 
 <!-- NAV -->
 <header class="fixed inset-x-0 top-0 z-50 backdrop-blur bg-black/25 border-b border-white/5">
@@ -71,15 +73,20 @@
     <button id="navBtn" class="md:hidden p-2" aria-label="menu">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
-    <ul id="navList" class="hidden md:flex gap-6 text-slate-300">
-      <li><a class="hover:text-white" href="#skills">Skills</a></li>
-      <li><a class="hover:text-white" href="#experience">Experience</a></li>
-      <li><a class="hover:text-white" href="#projects">Projects</a></li>
-      <li><a class="hover:text-white" href="#education">Education</a></li>
-      <li><a class="hover:text-white" href="#publications">Publications</a></li>
-      <li><a class="hover:text-white" href="#certs">Certs</a></li>
-      <li><a class="hover:text-white" href="#contact">Contact</a></li>
-    </ul>
+    <div class="hidden md:flex items-center gap-6">
+      <ul class="flex gap-6 text-slate-300">
+        <li><a class="hover:text-white" href="#skills">Skills</a></li>
+        <li><a class="hover:text-white" href="#experience">Experience</a></li>
+        <li><a class="hover:text-white" href="#projects">Projects</a></li>
+        <li><a class="hover:text-white" href="#education">Education</a></li>
+        <li><a class="hover:text-white" href="#publications">Publications</a></li>
+        <li><a class="hover:text-white" href="#certs">Certs</a></li>
+        <li><a class="hover:text-white" href="#contact">Contact</a></li>
+      </ul>
+      <button id="theme-toggle" class="p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Toggle theme">
+        <span id="theme-icon"></span>
+      </button>
+    </div>
   </nav>
   <ul id="navDrawer" class="hidden md:hidden container pb-4 space-y-2">
     <li><a class="block py-2 text-slate-300 hover:text-white" href="#skills">Skills</a></li>
@@ -89,6 +96,12 @@
     <li><a class="block py-2 text-slate-300 hover:text-white" href="#publications">Publications</a></li>
     <li><a class="block py-2 text-slate-300 hover:text-white" href="#certs">Certs</a></li>
     <li><a class="block py-2 text-slate-300 hover:text-white" href="#contact">Contact</a></li>
+    <li>
+      <button id="theme-toggle-mobile" class="flex items-center gap-2 py-2 text-slate-300 hover:text-white" aria-label="Toggle theme">
+        <span id="theme-icon-mobile"></span>
+        <span>Toggle Theme</span>
+      </button>
+    </li>
   </ul>
 </header>
 
@@ -163,129 +176,242 @@
   </div>
 </section>
 
-<!-- FEATURED PROJECT -->
+<!-- FEATURED PROJECTS -->
 <section class="mt-20">
   <div class="container">
-    <div class="glass card rounded-3xl p-8 md:p-12 overflow-hidden relative">
-      <!-- Background gradient -->
-      <div class="absolute inset-0 bg-gradient-to-br from-ks-green/10 via-transparent to-transparent"></div>
-      
-      <div class="relative z-10">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 rounded-xl bg-ks-green/20 flex items-center justify-center">
-            <svg class="w-6 h-6 text-ks-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-            </svg>
-          </div>
-          <div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold">Featured Project</h2>
-            <p class="text-ks-green text-sm font-medium">Production-Ready Application</p>
-          </div>
-        </div>
+    <div class="flex items-center gap-3 mb-8">
+      <div class="w-12 h-12 rounded-xl bg-ks-green/20 flex items-center justify-center">
+        <svg class="w-6 h-6 text-ks-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+      </div>
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold">Featured Projects</h2>
+        <p class="text-ks-green text-sm font-medium">Production-Ready Applications</p>
+      </div>
+    </div>
 
-        <div class="grid lg:grid-cols-2 gap-8 items-center">
-          <div>
-            <h3 class="text-3xl sm:text-4xl font-extrabold mb-4">
-              ApplyTrak: From Job Search Struggle to Production App
-            </h3>
-            <p class="text-lg text-slate-300 mb-6">
-              Turned my own job search frustration into a production-ready application that's helped hundreds of job seekers organize their applications and land offers.
-            </p>
-            
-            <div class="space-y-4 mb-8">
-              <div class="flex items-start gap-3">
-                <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-                <p class="text-slate-300">
-                  <strong class="text-white">The Problem:</strong> Scattered job applications across multiple spreadsheets, lost track of applications, zero visibility into progress
-                </p>
+    <div class="space-y-8">
+      <!-- TrailVerse -->
+      <div class="glass card rounded-3xl p-8 md:p-12 overflow-hidden relative">
+        <div class="absolute inset-0 bg-gradient-to-br from-ks-green/10 via-transparent to-transparent"></div>
+        <div class="relative z-10">
+          <div class="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 class="text-3xl sm:text-4xl font-extrabold mb-4">
+                TrailVerse: AI-Powered National Parks Explorer
+              </h3>
+              <p class="text-lg text-slate-300 mb-6">
+                Your Universe of National Parks Exploration - Comprehensive AI-powered trip planning & discovery platform for America's 470+ National Parks, Monuments, and protected areas.
+              </p>
+              
+              <div class="space-y-4 mb-8">
+                <div class="flex items-start gap-3">
+                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
+                  <p class="text-slate-300">
+                    <strong class="text-white">The Platform:</strong> First platform offering dual AI integration (GPT-4 + Claude) for intelligent trip planning with real-time conversation persistence
+                  </p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
+                  <p class="text-slate-300">
+                    <strong class="text-white">The Features:</strong> Comprehensive park data (470+ units), interactive Google Maps, community reviews, weather integration, and blog platform
+                  </p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
+                  <p class="text-slate-300">
+                    <strong class="text-white">The Impact:</strong> 50,000+ lines of code, 95+ Lighthouse score, production-ready platform serving thousands of users exploring America's National Parks
+                  </p>
+                </div>
               </div>
-              <div class="flex items-start gap-3">
-                <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-                <p class="text-slate-300">
-                  <strong class="text-white">The Solution:</strong> Built a comprehensive job tracking app with analytics, goal setting, and cloud sync
-                </p>
+
+              <div class="flex flex-wrap gap-3 mb-6">
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">React 18.3</span>
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Node.js</span>
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">MongoDB</span>
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">OpenAI GPT-4</span>
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Claude</span>
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Google Maps</span>
               </div>
-              <div class="flex items-start gap-3">
-                <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-                <p class="text-slate-300">
-                  <strong class="text-white">The Impact:</strong> 6 months of development, hundreds of users, and real stories of job search success
-                </p>
+
+              <div class="flex flex-wrap gap-4">
+                <a href="https://www.nationalparksexplorerusa.com" target="_blank" rel="noopener" class="btn-primary">
+                  View Live Site
+                </a>
+                <a href="https://medium.com/@codebykrishna/trailverse-how-i-built-an-ai-powered-platform-to-explore-americas-national-parks-33a2512ebbe8" target="_blank" rel="noopener" class="btn-ghost">
+                  Read Full Story
+                </a>
               </div>
             </div>
 
-            <div class="flex flex-wrap gap-3 mb-6">
-              <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">React 19</span>
-              <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">TypeScript</span>
-              <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Supabase</span>
-              <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">IndexedDB</span>
-              <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Vercel</span>
-            </div>
-
-            <div class="flex flex-wrap gap-4">
-              <a href="https://applytrak.com" target="_blank" rel="noopener" class="btn-primary">
-                View Live App
-              </a>
-              <a href="https://medium.com/javarevisited/applytrak-how-i-turned-a-job-search-struggle-into-a-production-ready-app-29bef49c327e" target="_blank" rel="noopener" class="btn-ghost">
-                Read Full Story
-              </a>
+            <div class="relative">
+              <div class="glass rounded-2xl p-6 border border-white/10">
+                <h4 class="font-semibold mb-4 text-center">Key Features</h4>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Dual AI Integration (GPT-4 + Claude)</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">470+ National Parks Database</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Interactive Google Maps & Places</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Community Reviews & Testimonials</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Real-Time Weather & Events</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Rich Blog Platform with Comments</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="relative">
-            <div class="glass rounded-2xl p-6 border border-white/10">
-              <h4 class="font-semibold mb-4 text-center">Key Features</h4>
-              <div class="space-y-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                    <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                  </div>
-                  <span class="text-sm text-slate-300">Unlimited Applications Tracking</span>
+      <!-- ApplyTrak -->
+      <div class="glass card rounded-3xl p-8 md:p-12 overflow-hidden relative">
+        <div class="absolute inset-0 bg-gradient-to-br from-ks-green/10 via-transparent to-transparent"></div>
+        <div class="relative z-10">
+          <div class="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 class="text-3xl sm:text-4xl font-extrabold mb-4">
+                ApplyTrak: From Job Search Struggle to Production App
+              </h3>
+              <p class="text-lg text-slate-300 mb-6">
+                Turned my own job search frustration into a production-ready application that's helped hundreds of job seekers organize their applications and land offers.
+              </p>
+              
+              <div class="space-y-4 mb-8">
+                <div class="flex items-start gap-3">
+                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
+                  <p class="text-slate-300">
+                    <strong class="text-white">The Problem:</strong> Scattered job applications across multiple spreadsheets, lost track of applications, zero visibility into progress
+                  </p>
                 </div>
-                <div class="flex items-center gap-3">
-                  <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                    <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                  </div>
-                  <span class="text-sm text-slate-300">Document Uploads (50MB)</span>
+                <div class="flex items-start gap-3">
+                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
+                  <p class="text-slate-300">
+                    <strong class="text-white">The Solution:</strong> Built a comprehensive job tracking app with analytics, goal setting, and cloud sync
+                  </p>
                 </div>
-                <div class="flex items-center gap-3">
-                  <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                    <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                  </div>
-                  <span class="text-sm text-slate-300">Goal Setting & Progress Tracking</span>
+                <div class="flex items-start gap-3">
+                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
+                  <p class="text-slate-300">
+                    <strong class="text-white">The Impact:</strong> 6 months of development, hundreds of users, and real stories of job search success
+                  </p>
                 </div>
-                <div class="flex items-center gap-3">
-                  <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                    <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-      </div>
-                  <span class="text-sm text-slate-300">Real-Time Analytics Dashboard</span>
-        </div>
-                <div class="flex items-center gap-3">
-                  <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                    <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-      </div>
-                  <span class="text-sm text-slate-300">Cloud Sync with Privacy</span>
-        </div>
-                <div class="flex items-center gap-3">
-                  <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                    <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-      </div>
-                  <span class="text-sm text-slate-300">Offline-First PWA</span>
-        </div>
-      </div>
-        </div>
-      </div>
+              </div>
+
+              <div class="flex flex-wrap gap-3 mb-6">
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">React 19</span>
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">TypeScript</span>
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Supabase</span>
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">IndexedDB</span>
+                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Vercel</span>
+              </div>
+
+              <div class="flex flex-wrap gap-4">
+                <a href="https://applytrak.com" target="_blank" rel="noopener" class="btn-primary">
+                  View Live App
+                </a>
+                <a href="https://medium.com/javarevisited/applytrak-how-i-turned-a-job-search-struggle-into-a-production-ready-app-29bef49c327e" target="_blank" rel="noopener" class="btn-ghost">
+                  Read Full Story
+                </a>
+              </div>
+            </div>
+
+            <div class="relative">
+              <div class="glass rounded-2xl p-6 border border-white/10">
+                <h4 class="font-semibold mb-4 text-center">Key Features</h4>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Unlimited Applications Tracking</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Document Uploads (50MB)</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Goal Setting & Progress Tracking</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Real-Time Analytics Dashboard</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Cloud Sync with Privacy</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm text-slate-300">Offline-First PWA</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -433,24 +559,23 @@
   <div class="container">
     <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Projects</h2>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- National Parks Explorer -->
+      <!-- RAG Chatbot -->
       <article class="glass card rounded-2xl overflow-hidden">
         <div class="tech-cover">
           <div class="tech-badges">
-            <img src="https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB" alt="React">
-            <img src="https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black" alt="Firebase">
-            <img src="https://img.shields.io/badge/Leaflet-199900?logo=leaflet&logoColor=white" alt="Leaflet">
-            <img src="https://img.shields.io/badge/Google%20Cloud-4285F4?logo=googlecloud&logoColor=white" alt="Cloud Functions">
-            <img src="https://img.shields.io/badge/Push%20Notifications-121212?logo=onesignal&logoColor=white" alt="Push">
-            <img src="https://img.shields.io/badge/SEO-0F172A?logo=google&logoColor=white" alt="SEO">
+            <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white" alt="React 19">
+            <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript">
+            <img src="https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white" alt="FastAPI">
+            <img src="https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white" alt="OpenAI">
+            <img src="https://img.shields.io/badge/RAG-FF6B6B?logo=python&logoColor=white" alt="RAG">
+            <img src="https://img.shields.io/badge/FAISS-4A90E2?logo=python&logoColor=white" alt="FAISS">
           </div>
         </div>
         <div class="p-5">
-          <h3 class="font-semibold">National Parks Explorer</h3>
-          <p class="mt-2 text-sm text-slate-300">Explore all 63 U.S. National Parks with map integration, travel tips, and community reviews.</p>
+          <h3 class="font-semibold">RAG Chatbot - Interview Prep Assistant</h3>
+          <p class="mt-2 text-sm text-slate-300">Advanced dual-persona RAG chatbot for interview preparation with 557+ knowledge chunks, dual AI profiles, and voice transcription.</p>
           <div class="mt-4 flex gap-3">
-            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/national-parks-explorer" target="_blank" rel="noopener">GitHub</a>
-            <a class="text-ks-green hover:underline" href="https://www.nationalparksexplorerusa.com" target="_blank" rel="noopener">Live</a>
+            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/rag-chatbot" target="_blank" rel="noopener">GitHub</a>
           </div>
         </div>
       </article>
@@ -686,7 +811,7 @@
           <h2 class="section-title text-2xl sm:text-3xl font-extrabold">Get in touch</h2>
           <p class="mt-3 text-slate-300">
             Prefer email?
-            <a class="text-ks-green hover:underline" href="mailto:krishnasathwikm@gmail.com">krishnasathwikm@gmail.com</a>
+            <a class="text-ks-green hover:underline" href="mailto:krishnasathvikm@gmail.com">krishnasathvikm@gmail.com</a>
           </p>
           <ul class="mt-6 space-y-2 text-slate-300">
             <li>📞 (940) 331-8276</li>
@@ -790,5 +915,8 @@
     });
   })();
 </script>
+
+<!-- Theme Switcher -->
+<script src="/js/theme-switcher.js"></script>
 </body>
 </html>
