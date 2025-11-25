@@ -1,13 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="color-scheme" content="dark light" />
-  <meta name="theme-color" content="#0B0F17" media="(prefers-color-scheme: dark)" />
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-  <meta name="robots" content="index,follow" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Krishna Sathvik — Senior Data Engineer</title>
   <meta name="description" content="Senior Data Engineer building real-time, cost-efficient data platforms on Azure, Databricks, Kafka & Snowflake." />
   <link rel="canonical" href="https://www.krishnasathvik.com/" />
@@ -29,894 +24,1380 @@
   <meta name="twitter:description" content="Real-time, cost-efficient data platforms on Azure, Databricks, Kafka & Snowflake." />
   <meta name="twitter:image" content="/icon-512.png" />
 
-  <!-- Fonts: Inter + Plus Jakarta (for headings) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind (CDN) -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- GSAP & Lenis -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
   <script>
     tailwind.config = {
       theme: {
-        container: { center: true, padding: '1rem', screens: { lg: '1024px', xl: '1200px' } },
         extend: {
-          fontFamily: { sans: ['Inter', 'system-ui', 'Segoe UI', 'Arial'] },
-          colors: { ks: { green: '#7ED957', slate: '#0B0F17', card: '#0F1422' } },
-          backgroundImage: { 'ks-gradient': 'linear-gradient(135deg, rgba(126,217,87,.18), rgba(126,217,87,0) 60%)' }
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            background: '#F5F5F5',
+            surface: '#FFFFFF',
+            primary: '#111111',
+            secondary: '#555555',
+            accent: '#7ED957',
+            line: '#E0E0E0'
+          },
+          letterSpacing: {
+            tighter: '-0.04em',
+            tight: '-0.02em',
+          },
+          transitionTimingFunction: {
+            'spring': 'cubic-bezier(0.25, 0.8, 0.25, 1)',
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
         }
       }
     }
   </script>
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="/css/themes.css" />
-  <link rel="stylesheet" href="/css/main.css" />
-
-  <!-- Ensure headings pick Plus Jakarta even if CSS is cached -->
   <style>
-    h1, h2, h3, .section-title {
-      font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
-      letter-spacing: -.02em;
+    /* Base & Reset */
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    body {
+      background-color: #F5F5F5;
+      color: #111111;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+    ::selection { background-color: #7ED957; color: white; }
+
+    /* Custom Cursor */
+    @media (pointer: fine) {
+      body { cursor: none; }
+      .cursor-dot, .cursor-circle {
+        display: block;
+        position: fixed;
+        top: 0; left: 0;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: exclusion;
+      }
+      .cursor-dot { width: 6px; height: 6px; background: white; border-radius: 50%; }
+      .cursor-circle {
+        width: 32px; height: 32px;
+        border: 1px solid white; border-radius: 50%;
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
+      }
+      body:hover .cursor-circle { opacity: 1; }
+      .hover-active .cursor-circle {
+        width: 64px; height: 64px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: transparent;
+      }
+    }
+    @media (pointer: coarse) {
+      .cursor-dot, .cursor-circle { display: none !important; }
+      body { cursor: auto; }
+    }
+
+    /* Typography & Utils */
+    .text-balance { text-wrap: balance; }
+    .loader {
+      position: fixed; inset: 0; z-index: 10000;
+      background: #111111; display: flex; justify-content: center; align-items: center; color: #F5F5F5;
+    }
+    .magnetic-btn { display: inline-block; will-change: transform; }
+    
+    /* Fixed Navigation */
+    nav {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: auto;
+      transition: transform 0.3s ease-in-out;
+    }
+    nav.nav-hidden {
+      transform: translateY(-100%);
+    }
+    
+    /* Make all accent colored text bold */
+    .text-accent {
+      font-weight: 700;
+    }
+
+    /* Reveal Animations */
+    .hero-char {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(12px);
+      transform: translateY(20px);
+      will-change: transform, opacity, filter;
+    }
+
+    /* Wispr-style Glow */
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(126, 217, 87, 0.08) 0%, rgba(255,255,255,0) 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: -1;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0;
+    }
+
+    /* Marquee */
+    .marquee-track {
+      display: flex; white-space: nowrap; width: max-content;
+      will-change: transform; animation: marquee 40s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Project Cards */
+    .project-card .project-img { transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s; }
+    .project-card:hover .project-img { transform: scale(1.03); }
+
+    /* Mobile Fixes */
+    .mobile-stack { display: flex; flex-direction: column; }
+    @media (min-width: 768px) { .mobile-stack { flex-direction: row; } }
   </style>
 </head>
-<body>
+<body class="overflow-x-hidden w-full">
 
-<!-- NAV -->
-<header class="fixed inset-x-0 top-0 z-50 backdrop-blur bg-black/25 border-b border-white/5">
-  <nav class="container py-3 flex items-center justify-between">
-    <a href="#home" class="flex items-center gap-3">
-      <img src="img/logo.png" alt="KS" class="h-8 w-8 rounded-md" />
-      <span class="font-extrabold tracking-tight">KS Portfolio</span>
-    </a>
-    <button id="navBtn" class="md:hidden p-2" aria-label="menu">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
-    <div class="hidden md:flex items-center gap-6">
-      <ul class="flex gap-6 text-slate-300">
-        <li><a class="hover:text-white" href="#skills">Skills</a></li>
-        <li><a class="hover:text-white" href="#experience">Experience</a></li>
-        <li><a class="hover:text-white" href="#projects">Projects</a></li>
-        <li><a class="hover:text-white" href="#education">Education</a></li>
-        <li><a class="hover:text-white" href="#publications">Publications</a></li>
-        <li><a class="hover:text-white" href="#certs">Certs</a></li>
-        <li><a class="hover:text-white" href="#contact">Contact</a></li>
-      </ul>
-      <button id="theme-toggle" class="p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Toggle theme">
-        <span id="theme-icon"></span>
-      </button>
-    </div>
-  </nav>
-  <ul id="navDrawer" class="hidden md:hidden container pb-4 space-y-2">
-    <li><a class="block py-2 text-slate-300 hover:text-white" href="#skills">Skills</a></li>
-    <li><a class="block py-2 text-slate-300 hover:text-white" href="#experience">Experience</a></li>
-    <li><a class="block py-2 text-slate-300 hover:text-white" href="#projects">Projects</a></li>
-    <li><a class="block py-2 text-slate-300 hover:text-white" href="#education">Education</a></li>
-    <li><a class="block py-2 text-slate-300 hover:text-white" href="#publications">Publications</a></li>
-    <li><a class="block py-2 text-slate-300 hover:text-white" href="#certs">Certs</a></li>
-    <li><a class="block py-2 text-slate-300 hover:text-white" href="#contact">Contact</a></li>
-    <li>
-      <button id="theme-toggle-mobile" class="flex items-center gap-2 py-2 text-slate-300 hover:text-white" aria-label="Toggle theme">
-        <span id="theme-icon-mobile"></span>
-        <span>Toggle Theme</span>
-      </button>
-    </li>
-  </ul>
-</header>
-
-<!-- HERO -->
-<section id="home" class="pt-28">
-  <div class="container">
-    <div class="grid md:grid-cols-2 gap-10 items-center">
-      <!-- LEFT: intro -->
-      <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ks-gradient text-ks-green text-xs mb-5 ring-1 ring-ks-green/25">
-          Open to opportunities
-        </div>
-        <h1 class="text-4xl sm:text-6xl font-extrabold leading-[1.05]">
-          Krishna Sathvik<br/>Mantripragada
-        </h1>
-        <p class="mt-4 text-base sm:text-lg text-slate-300">
-          Senior Data Engineer
-        </p>
-
-        <!-- Resume summary -->
-        <p class="mt-5 text-slate-300">
-          Senior Data Engineer with 6+ years building scalable data infrastructure and analytics solutions across healthcare and enterprise environments.
-          Skilled in Azure, AWS, Python, and the modern data stack (Databricks, Synapse, Power BI). Proven track record in delivering predictive analytics,
-          automated reporting, and actionable insights that improve operational efficiency, forecasting accuracy, and decision-making across large-scale data ecosystems.
-          Passionate about solving real-world problems with data, cloud, and automation while exploring the cosmos through astrophotography.
-        </p>
-
-        <div class="mt-7 flex flex-wrap gap-3">
-          <a href="resume/Krishna_Sathvik_Resume.pdf" class="btn-primary">Download Resume</a>
-          <a href="#contact" class="btn-ghost">Contact Me</a>
-          <a href="https://github.com/KrishnaSathvik" target="_blank" rel="noopener" class="btn-ghost">GitHub</a>
-        </div>
+  <!-- Loader -->
+  <div class="loader" id="loader">
+    <div class="flex flex-col items-center gap-4">
+      <div class="font-mono text-6xl md:text-8xl font-bold tracking-tighter" id="loader-text">0%</div>
+      <div class="w-32 h-[1px] bg-gray-800 relative overflow-hidden">
+        <div class="absolute inset-0 bg-accent w-0" id="loader-progress"></div>
       </div>
-
-      <!-- RIGHT: glass card with BIG cert badges -->
-      <aside class="relative">
-        <div class="glass rounded-2xl p-6 sm:p-8 h-full min-h-[320px] shadow-xl shadow-black/40">
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
-            <div class="cert-tile">
-              <img
-                src="img/certs/azure-ai-engineer.png"
-                onerror="this.onerror=null;this.src='img/azure-ai-engineer.png';"
-                alt="Microsoft Certified: Azure AI Engineer Associate"
-                class="cert-badge"
-                loading="lazy"
-              />
-            </div>
-            <div class="cert-tile">
-              <img
-                src="img/certs/azure-data-engineer.png"
-                onerror="this.onerror=null;this.src='img/azure-data-engineer.png';"
-                alt="Microsoft Certified: Azure Data Engineer Associate"
-                class="cert-badge"
-                loading="lazy"
-              />
-            </div>
-            <div class="cert-tile">
-              <img
-                src="img/certs/oreilly-chatgpt-data-analysis.png"
-                onerror="this.onerror=null;this.src='img/oreilly-chatgpt-data-analysis.png';"
-                alt="O’Reilly ChatGPT Data Analysis"
-                class="cert-badge"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </div>
-        <!-- subtle backdrop glow -->
-        <div class="pointer-events-none absolute -inset-6 -z-10 bg-ks-gradient blur-3xl rounded-[1.75rem]"></div>
-      </aside>
     </div>
   </div>
-</section>
 
-<!-- FEATURED PROJECTS -->
-<section class="mt-20">
-  <div class="container">
-    <div class="flex items-center gap-3 mb-8">
-      <div class="w-12 h-12 rounded-xl bg-ks-green/20 flex items-center justify-center">
-        <svg class="w-6 h-6 text-ks-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-        </svg>
+  <!-- Cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-circle"></div>
+
+  <!-- Navigation -->
+  <nav id="main-nav" class="fixed top-0 left-0 right-0 w-full px-4 md:px-6 py-5 flex justify-between items-center z-50 mix-blend-difference text-white pointer-events-none bg-transparent transition-transform duration-300">
+    <a href="#" class="font-mono text-sm font-semibold uppercase tracking-widest hover:text-accent transition-colors pointer-events-auto">
+      Krishna<br>Sathvik
+    </a>
+    <div class="flex items-center gap-4 md:gap-10 pointer-events-auto">
+      <div class="hidden md:flex gap-8 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/10">
+        <a href="#work" class="font-mono text-xs uppercase tracking-widest hover:text-accent transition-colors">Work</a>
+        <a href="#experience" class="font-mono text-xs uppercase tracking-widest hover:text-accent transition-colors">Experience</a>
+        <a href="#competencies" class="font-mono text-xs uppercase tracking-widest hover:text-accent transition-colors">Skills</a>
+        <a href="#ai-projects" class="font-mono text-xs uppercase tracking-widest hover:text-accent transition-colors">AI/ML</a>
+        <a href="#projects" class="font-mono text-xs uppercase tracking-widest hover:text-accent transition-colors">Projects</a>
+        <a href="#contact" class="font-mono text-xs uppercase tracking-widest hover:text-accent transition-colors">Contact</a>
       </div>
-      <div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold">Featured Projects</h2>
-        <p class="text-ks-green text-sm font-medium">Production-Ready Applications</p>
+      <a href="#contact" class="bg-white text-black px-5 py-2 rounded-full font-mono text-xs font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-colors duration-200 magnetic-btn shadow-lg">
+        Contact
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section (Wispr Style) -->
+  <section class="relative min-h-screen flex flex-col justify-center items-center px-4 md:px-6 pt-32 md:pt-24 overflow-hidden">
+    <!-- Canvas Background -->
+    <canvas id="hero-canvas" class="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none"></canvas>
+    
+    <!-- Wispr Glow Blob -->
+    <div class="hero-glow animate-pulse-slow"></div>
+
+    <div class="max-w-[1800px] mx-auto w-full z-10 relative flex flex-col items-center text-center">
+      
+      <!-- Floating Status Badge -->
+      <div class="mb-8 md:mb-12 flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/40 backdrop-blur-md border border-white/20 shadow-sm opacity-0 hero-fade-in">
+        <div class="flex gap-1 h-3 items-center">
+          <span class="w-1 h-full bg-accent rounded-full animate-[pulse_1s_ease-in-out_infinite]"></span>
+          <span class="w-1 h-2/3 bg-accent rounded-full animate-[pulse_1.2s_ease-in-out_infinite]"></span>
+          <span class="w-1 h-full bg-accent rounded-full animate-[pulse_0.8s_ease-in-out_infinite]"></span>
+        </div>
+        <span class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-primary font-medium">Open to Opportunities</span>
+      </div>
+
+      <!-- Main Title with Split Reveal -->
+      <h1 class="text-[13vw] md:text-[10vw] leading-[0.9] font-semibold tracking-tighter text-primary uppercase mix-blend-darken flex flex-col items-center">
+        <div class="overflow-hidden"><span class="hero-char">Krishna</span></div>
+        <div class="overflow-hidden"><span class="hero-char">Sathvik</span></div>
+      </h1>
+
+      <!-- Subtitle -->
+      <div class="mt-8 md:mt-12 max-w-2xl mx-auto opacity-0 hero-fade-in">
+        <p class="font-sans text-base md:text-xl text-secondary leading-relaxed text-balance">
+          Senior Data Engineer | Exploring AI/ML & GenAI
+        </p>
+        <p class="mt-4 font-sans text-sm md:text-base text-secondary/80 leading-relaxed">
+          7+ years building data platforms with Snowflake, Databricks, and Kafka. Exploring RAG systems, LLMs, and MLOps in my free time to bridge data engineering with AI.
+        </p>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="mt-10 md:mt-14 flex flex-col items-center gap-4 opacity-0 hero-fade-in">
+        <a href="resume/Krishna_Sathvik_Resume.pdf" class="px-8 py-3 bg-primary text-white rounded-full font-mono text-xs font-bold uppercase tracking-widest hover:bg-accent transition-colors duration-300 magnetic-btn">
+          Download Resume
+        </a>
+        <div class="flex items-center gap-4">
+          <a href="https://www.linkedin.com/in/krishnasathvik/" target="_blank" rel="noopener" class="p-3 border border-black/10 bg-white rounded-full hover:bg-gray-100 transition-colors duration-200 magnetic-btn">
+            <i data-lucide="linkedin" class="w-5 h-5 stroke-[1.5]"></i>
+          </a>
+          <a href="https://github.com/KrishnaSathvik" target="_blank" rel="noopener" class="p-3 border border-black/10 bg-white rounded-full hover:bg-gray-100 transition-colors duration-200 magnetic-btn">
+            <i data-lucide="github" class="w-5 h-5 stroke-[1.5]"></i>
+          </a>
+        </div>
       </div>
     </div>
 
-    <div class="space-y-8">
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 hero-fade-in animate-bounce">
+      <i data-lucide="arrow-down" class="w-5 h-5 text-secondary/50"></i>
+    </div>
+  </section>
+
+  <!-- Marquee Skills -->
+  <div class="py-6 md:py-8 bg-primary text-white overflow-hidden border-y border-white/10 select-none">
+    <div class="marquee-track font-mono text-xs md:text-sm uppercase tracking-[0.3em]">
+      <span class="mx-4 md:mx-8">Azure</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Databricks</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Python</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Apache Kafka</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Apache Spark</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Snowflake</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">dbt</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Power BI</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Machine Learning</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">SQL</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Apache Airflow</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Tableau</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">AWS</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Delta Lake</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Apache Flink</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Scala</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">LangChain</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">OpenAI</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">HuggingFace</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">MLflow</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Vector Databases</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Feature Store</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Azure Data Factory</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">PostgreSQL</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Docker</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Azure DevOps</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">RAG</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">LLM</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">PySpark</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Java</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Azure</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Databricks</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Python</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Apache Kafka</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Apache Spark</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Snowflake</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">dbt</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Power BI</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">Machine Learning</span><span class="text-accent">•</span>
+      <span class="mx-4 md:mx-8">SQL</span><span class="text-accent">•</span>
+    </div>
+  </div>
+
+  <!-- Selected Work -->
+  <section id="work" class="px-4 md:px-6 py-20 md:py-32 max-w-[1800px] mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 md:mb-24 border-b border-black/10 pb-6">
+      <h2 class="text-4xl md:text-7xl font-semibold tracking-tighter uppercase">Featured Projects</h2>
+      <span class="font-mono text-xs md:text-sm text-secondary mt-2 md:mt-0">Production-Ready</span>
+    </div>
+
+    <div class="space-y-20 md:space-y-32">
       <!-- TrailVerse -->
-      <div class="glass card rounded-3xl p-8 md:p-12 overflow-hidden relative">
-        <div class="absolute inset-0 bg-gradient-to-br from-ks-green/10 via-transparent to-transparent"></div>
-        <div class="relative z-10">
-          <div class="grid lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 class="text-3xl sm:text-4xl font-extrabold mb-4">
-                TrailVerse: AI-Powered National Parks Explorer
-              </h3>
-              <p class="text-lg text-slate-300 mb-6">
-                Your Universe of National Parks Exploration - Comprehensive AI-powered trip planning & discovery platform for America's 470+ National Parks, Monuments, and protected areas.
-              </p>
-              
-              <div class="space-y-4 mb-8">
-                <div class="flex items-start gap-3">
-                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-                  <p class="text-slate-300">
-                    <strong class="text-white">The Platform:</strong> First platform offering dual AI integration (GPT-4 + Claude) for intelligent trip planning with real-time conversation persistence
-                  </p>
-                </div>
-                <div class="flex items-start gap-3">
-                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-                  <p class="text-slate-300">
-                    <strong class="text-white">The Features:</strong> Comprehensive park data (470+ units), interactive Google Maps, community reviews, weather integration, and blog platform
-                  </p>
-                </div>
-                <div class="flex items-start gap-3">
-                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-                  <p class="text-slate-300">
-                    <strong class="text-white">The Impact:</strong> 50,000+ lines of code, 95+ Lighthouse score, production-ready platform serving thousands of users exploring America's National Parks
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex flex-wrap gap-3 mb-6">
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">React 18.3</span>
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Node.js</span>
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">MongoDB</span>
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">OpenAI GPT-4</span>
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Claude</span>
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Google Maps</span>
-              </div>
-
-              <div class="flex flex-wrap gap-4">
-                <a href="https://www.nationalparksexplorerusa.com" target="_blank" rel="noopener" class="btn-primary">
-                  View Live Site
-                </a>
-                <a href="https://medium.com/@codebykrishna/trailverse-how-i-built-an-ai-powered-platform-to-explore-americas-national-parks-33a2512ebbe8" target="_blank" rel="noopener" class="btn-ghost">
-                  Read Full Story
-                </a>
-              </div>
-            </div>
-
-            <div class="relative">
-              <div class="glass rounded-2xl p-6 border border-white/10">
-                <h4 class="font-semibold mb-4 text-center">Key Features</h4>
-                <div class="space-y-3">
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Dual AI Integration (GPT-4 + Claude)</span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">470+ National Parks Database</span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Interactive Google Maps & Places</span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Community Reviews & Testimonials</span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Real-Time Weather & Events</span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Rich Blog Platform with Comments</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div class="group project-card grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div class="lg:col-span-7 overflow-hidden rounded-sm bg-gray-200 aspect-[4/3] md:aspect-[16/10] relative cursor-pointer">
+          <div class="absolute inset-0 bg-black/10 z-10 group-hover:bg-transparent transition-colors duration-300"></div>
+          <img src="Trailverse.png" alt="TrailVerse: National Parks Explorer" class="project-img w-full h-full object-cover grayscale group-hover:grayscale-0 origin-center">
+        </div>
+        <div class="lg:col-span-5 flex flex-col gap-4 md:gap-6">
+          <div class="flex items-center gap-3 font-mono text-[10px] md:text-xs uppercase tracking-widest text-accent">
+            <i data-lucide="layout-grid" class="w-3 h-3 md:w-4 md:h-4"></i>
+            <span>AI-Powered Platform</span>
           </div>
+          <h3 class="text-3xl md:text-5xl font-semibold tracking-tighter">TrailVerse: National Parks Explorer</h3>
+          <p class="text-secondary text-base md:text-lg leading-relaxed">
+            Comprehensive AI-powered trip planning & discovery platform for America's 470+ National Parks, Monuments, and protected areas. First platform offering dual AI integration (GPT-4 + Claude) for intelligent trip planning.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-1">
+            <span class="px-2 py-1 md:px-3 md:py-1 border border-black/10 rounded-full text-[10px] md:text-xs font-mono uppercase text-secondary bg-white">React 18.3</span>
+            <span class="px-2 py-1 md:px-3 md:py-1 border border-black/10 rounded-full text-[10px] md:text-xs font-mono uppercase text-secondary bg-white">Node.js</span>
+            <span class="px-2 py-1 md:px-3 md:py-1 border border-black/10 rounded-full text-[10px] md:text-xs font-mono uppercase text-secondary bg-white">MongoDB</span>
+            <span class="px-2 py-1 md:px-3 md:py-1 border border-black/10 rounded-full text-[10px] md:text-xs font-mono uppercase text-secondary bg-white">OpenAI GPT-4</span>
+          </div>
+          <a href="https://www.nationalparksexplorerusa.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-xs md:text-sm font-semibold uppercase tracking-widest mt-2 md:mt-4 hover:text-accent transition-colors magnetic-btn group/link">
+            View Live Site <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"></i>
+          </a>
         </div>
       </div>
 
       <!-- ApplyTrak -->
-      <div class="glass card rounded-3xl p-8 md:p-12 overflow-hidden relative">
-        <div class="absolute inset-0 bg-gradient-to-br from-ks-green/10 via-transparent to-transparent"></div>
-        <div class="relative z-10">
-          <div class="grid lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 class="text-3xl sm:text-4xl font-extrabold mb-4">
-                ApplyTrak: From Job Search Struggle to Production App
-              </h3>
-              <p class="text-lg text-slate-300 mb-6">
-                Turned my own job search frustration into a production-ready application that's helped hundreds of job seekers organize their applications and land offers.
-              </p>
-              
-              <div class="space-y-4 mb-8">
-                <div class="flex items-start gap-3">
-                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-                  <p class="text-slate-300">
-                    <strong class="text-white">The Problem:</strong> Scattered job applications across multiple spreadsheets, lost track of applications, zero visibility into progress
-                  </p>
-                </div>
-                <div class="flex items-start gap-3">
-                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-                  <p class="text-slate-300">
-                    <strong class="text-white">The Solution:</strong> Built a comprehensive job tracking app with analytics, goal setting, and cloud sync
-                  </p>
-                </div>
-                <div class="flex items-start gap-3">
-                  <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-                  <p class="text-slate-300">
-                    <strong class="text-white">The Impact:</strong> 6 months of development, hundreds of users, and real stories of job search success
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex flex-wrap gap-3 mb-6">
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">React 19</span>
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">TypeScript</span>
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Supabase</span>
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">IndexedDB</span>
-                <span class="px-3 py-1 rounded-full bg-ks-green/20 text-ks-green text-sm font-medium">Vercel</span>
-              </div>
-
-              <div class="flex flex-wrap gap-4">
-                <a href="https://applytrak.com" target="_blank" rel="noopener" class="btn-primary">
-                  View Live App
-                </a>
-                <a href="https://medium.com/javarevisited/applytrak-how-i-turned-a-job-search-struggle-into-a-production-ready-app-29bef49c327e" target="_blank" rel="noopener" class="btn-ghost">
-                  Read Full Story
-                </a>
-              </div>
-            </div>
-
-            <div class="relative">
-              <div class="glass rounded-2xl p-6 border border-white/10">
-                <h4 class="font-semibold mb-4 text-center">Key Features</h4>
-                <div class="space-y-3">
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Unlimited Applications Tracking</span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Document Uploads (50MB)</span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Goal Setting & Progress Tracking</span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Real-Time Analytics Dashboard</span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Cloud Sync with Privacy</span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-ks-green/20 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-ks-green" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                    <span class="text-sm text-slate-300">Offline-First PWA</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div class="group project-card grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div class="lg:col-span-5 flex flex-col gap-4 md:gap-6 order-2 lg:order-1">
+          <div class="flex items-center gap-3 font-mono text-[10px] md:text-xs uppercase tracking-widest text-accent">
+            <i data-lucide="briefcase" class="w-3 h-3 md:w-4 md:h-4"></i>
+            <span>Job Tracking App</span>
           </div>
+          <h3 class="text-3xl md:text-5xl font-semibold tracking-tighter">ApplyTrak</h3>
+          <p class="text-secondary text-base md:text-lg leading-relaxed">
+            Production-ready job tracking application with analytics, goal setting, and cloud sync. Built to solve real job search challenges, helping hundreds of users organize their applications and land offers.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-1">
+            <span class="px-2 py-1 md:px-3 md:py-1 border border-black/10 rounded-full text-[10px] md:text-xs font-mono uppercase text-secondary bg-white">React 19</span>
+            <span class="px-2 py-1 md:px-3 md:py-1 border border-black/10 rounded-full text-[10px] md:text-xs font-mono uppercase text-secondary bg-white">TypeScript</span>
+            <span class="px-2 py-1 md:px-3 md:py-1 border border-black/10 rounded-full text-[10px] md:text-xs font-mono uppercase text-secondary bg-white">Supabase</span>
+          </div>
+          <a href="https://applytrak.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-xs md:text-sm font-semibold uppercase tracking-widest mt-2 md:mt-4 hover:text-accent transition-colors magnetic-btn group/link">
+            View Live App <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"></i>
+          </a>
+        </div>
+        <div class="lg:col-span-7 overflow-hidden rounded-sm bg-gray-200 aspect-[4/3] md:aspect-[16/10] relative cursor-pointer order-1 lg:order-2">
+          <div class="absolute inset-0 bg-black/10 z-10 group-hover:bg-transparent transition-colors duration-300"></div>
+          <img src="ApplyTrak.png" alt="ApplyTrak: Job Application Tracker" class="project-img w-full h-full object-cover grayscale group-hover:grayscale-0 origin-center">
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- SKILLS -->
-<section id="skills" class="mt-20">
-  <div class="container">
-    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Skills</h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="glass card p-6"><h3 class="font-semibold mb-2">Data Engineering & ETL</h3><p class="text-slate-300 text-sm">dbt, Azure Data Factory, Airflow, Data Orchestration, ETL Pipelines, Apache Kafka, Apache Spark</p></div>
-      <div class="glass card p-6"><h3 class="font-semibold mb-2">AI & Machine Learning</h3><p class="text-slate-300 text-sm">Predictive Modeling, Forecasting, Anomaly Detection, Azure ML, Deep Learning, LSTM, RAG, LLM, OpenAI API, LangChain, Vector Databases, Prompt Engineering</p></div>
-      <div class="glass card p-6"><h3 class="font-semibold mb-2">Cloud & Databases</h3><p class="text-slate-300 text-sm">Azure, AWS, Snowflake, Redshift, BigQuery, PostgreSQL, MySQL, Oracle, Cassandra</p></div>
-      <div class="glass card p-6"><h3 class="font-semibold mb-2">DevOps & Automation</h3><p class="text-slate-300 text-sm">Workflow Automation, CI/CD for Data, Data Quality Monitoring, Docker, Azure DevOps</p></div>
-      <div class="glass card p-6"><h3 class="font-semibold mb-2">BI & Visualization</h3><p class="text-slate-300 text-sm">Power BI, Tableau, Looker, Streamlit, Chart.js, Recharts</p></div>
-      <div class="glass card p-6"><h3 class="font-semibold mb-2">Programming & Analysis</h3><p class="text-slate-300 text-sm">Python, Java, SQL, R, JavaScript, TypeScript, Market Basket Analysis, Association Rule Mining, FP-Growth, Statistical Analysis</p></div>
+  <!-- Additional Projects -->
+  <section id="projects" class="px-4 md:px-6 py-20 md:py-32 bg-white">
+    <div class="max-w-[1800px] mx-auto">
+      <h2 class="text-4xl md:text-7xl font-semibold tracking-tighter uppercase mb-16 md:mb-24">Other Projects</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- RAG Chatbot -->
+        <article class="group project-card rounded-sm overflow-hidden border border-black/10 bg-white">
+          <div class="p-6">
+            <h3 class="font-semibold text-xl mb-2">RAG Chatbot - Interview Prep</h3>
+            <p class="text-secondary text-sm mb-4">Advanced dual-persona RAG chatbot for interview preparation with 557+ knowledge chunks, dual AI profiles, and voice transcription.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">React 19</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">FastAPI</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">RAG</span>
+            </div>
+            <a href="https://github.com/KrishnaSathvik/rag-chatbot" target="_blank" rel="noopener" class="text-xs font-semibold uppercase tracking-widest hover:text-accent transition-colors inline-flex items-center gap-2">
+              GitHub <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Fraud Detection -->
+        <article class="group project-card rounded-sm overflow-hidden border border-black/10 bg-white">
+          <div class="p-6">
+            <h3 class="font-semibold text-xl mb-2">Real-time Fraud Detection</h3>
+            <p class="text-secondary text-sm mb-4">ML-powered fraud detection pipeline processing millions of transactions with sub-second latency.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">Python</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">Kafka</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">Spark</span>
+            </div>
+            <a href="https://github.com/KrishnaSathvik/fraud-detection-system" target="_blank" rel="noopener" class="text-xs font-semibold uppercase tracking-widest hover:text-accent transition-colors inline-flex items-center gap-2">
+              GitHub <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Finance Tracker -->
+        <article class="group project-card rounded-sm overflow-hidden border border-black/10 bg-white">
+          <div class="p-6">
+            <h3 class="font-semibold text-xl mb-2">Finance Tracker Pipeline</h3>
+            <p class="text-secondary text-sm mb-4">Process, transform, and analyze expense data using Python and pandas.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">Python</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">pandas</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">ETL</span>
+            </div>
+            <a href="https://github.com/KrishnaSathvik/finance-tracker-pipeline" target="_blank" rel="noopener" class="text-xs font-semibold uppercase tracking-widest hover:text-accent transition-colors inline-flex items-center gap-2">
+              GitHub <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Stock Prediction -->
+        <article class="group project-card rounded-sm overflow-hidden border border-black/10 bg-white">
+          <div class="p-6">
+            <h3 class="font-semibold text-xl mb-2">Stock Price Prediction</h3>
+            <p class="text-secondary text-sm mb-4">Use ML and deep learning to predict stock market trends.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">Python</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">LSTM</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">ML</span>
+            </div>
+            <a href="https://github.com/KrishnaSathvik/stock-price-prediction" target="_blank" rel="noopener" class="text-xs font-semibold uppercase tracking-widest hover:text-accent transition-colors inline-flex items-center gap-2">
+              GitHub <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Market Basket Analysis -->
+        <article class="group project-card rounded-sm overflow-hidden border border-black/10 bg-white">
+          <div class="p-6">
+            <h3 class="font-semibold text-xl mb-2">Market Basket Analysis</h3>
+            <p class="text-secondary text-sm mb-4">Analyze purchasing patterns with association rule mining and FP-Growth.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">Python</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">Streamlit</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">FP-Growth</span>
+            </div>
+            <a href="https://github.com/KrishnaSathvik/market-basket-analysis" target="_blank" rel="noopener" class="text-xs font-semibold uppercase tracking-widest hover:text-accent transition-colors inline-flex items-center gap-2">
+              GitHub <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Vehicle Telemetry -->
+        <article class="group project-card rounded-sm overflow-hidden border border-black/10 bg-white">
+          <div class="p-6">
+            <h3 class="font-semibold text-xl mb-2">Vehicle Telemetry Pipeline</h3>
+            <p class="text-secondary text-sm mb-4">Kafka + Spark streaming with Cassandra & Streamlit, real-time anomaly detection.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">Kafka</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">Spark</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-white">Cassandra</span>
+            </div>
+            <a href="https://github.com/KrishnaSathvik/vehicle-telemetry-pipeline" target="_blank" rel="noopener" class="text-xs font-semibold uppercase tracking-widest hover:text-accent transition-colors inline-flex items-center gap-2">
+              GitHub <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+        </article>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- EXPERIENCE -->
-<section id="experience" class="mt-20">
-  <div class="container">
-    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Professional Experience</h2>
-
-    <div class="space-y-6">
-
-      <!-- Walgreens -->
-      <article class="glass card rounded-2xl p-6">
-        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-4">
-          <div>
-            <h3 class="text-xl font-bold text-white">Data Engineer</h3>
-            <p class="text-ks-green font-medium">Walgreens Boots Alliance</p>
-            <p class="text-slate-400 text-sm">Feb 2022 – Present</p>
-          </div>
-        </div>
-        <ul class="space-y-3">
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Process 10+ TB of healthcare retail data monthly with sub-second query performance by building scalable pipelines in Azure Databricks, Azure SQL Database, and Azure Data Factory for real-time executive dashboards</p>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Reduce query execution costs by 22% while integrating 15+ data sources by architecting optimized ETL workflows in Azure Synapse Analytics across DEV, SIT, UAT, and PROD environments</p>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Eliminate 30+ hours of manual work weekly and improve workflow efficiency by 30% by creating reusable automation frameworks enabling real-time analytics</p>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Accelerate deployment cycles by 40% through CI/CD pipeline implementation in Azure DevOps, enhancing KPI tracking and data governance across healthcare analytics platforms</p>
-          </li>
-        </ul>
-      </article>
-
-      <!-- CVS -->
-      <article class="glass card rounded-2xl p-6">
-        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-4">
-          <div>
-            <h3 class="text-xl font-bold text-white">Analytics Engineer</h3>
-            <p class="text-ks-green font-medium">CVS Health</p>
-            <p class="text-slate-400 text-sm">Oct 2020 – Dec 2021</p>
-          </div>
-        </div>
-        <ul class="space-y-3">
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Designed and deployed ETL workflows processing 7+ million sales and financial records, increasing data accuracy by 16–35% and enhancing reliability of executive reporting and ML models</p>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Automated integration workflows between on-premises systems and Oracle Cloud, reducing manual processing by 31% and enabling real-time insights in Power BI and Tableau dashboards across multiple business units</p>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Re-engineered legacy queries and migrated business logic, improving scalability, performance, and data consistency across 8+ enterprise databases</p>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Built Azure ML forecasting models leveraging 5+ years of historical trends, increasing budget and inventory forecast accuracy by 16% and supporting enterprise-wide resource allocation decisions</p>
-          </li>
-        </ul>
-      </article>
-
-      <!-- McKesson -->
-      <article class="glass card rounded-2xl p-6">
-        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-4">
-          <div>
-            <h3 class="text-xl font-bold text-white">Data Science Intern</h3>
-            <p class="text-ks-green font-medium">McKesson Corporation</p>
-            <p class="text-slate-400 text-sm">Mar 2020 – Sep 2020</p>
-          </div>
-        </div>
-        <ul class="space-y-3">
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Developed scripts to clean, preprocess, and analyze 2+ million prescription and sales records, improving data readiness by 22% for downstream analytics, forecasting models, and business intelligence initiatives</p>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Created and tested Azure ML models to predict prescription demand, achieving a 14% improvement in forecast accuracy over baseline methods and supporting supply chain and inventory management teams</p>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Designed and deployed Tableau dashboards visualizing patient behavior and prescription trends, enabling targeted decision-making for pilot business units and improving stakeholder engagement with data insights</p>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Partnered with data engineering team to integrate model outputs into ETL workflows, establishing automation foundations later scaled at CVS to support enterprise-wide forecasting and analytics pipelines</p>
-          </li>
-        </ul>
-      </article>
-
-      <!-- Inditek -->
-      <article class="glass card rounded-2xl p-6">
-        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-4">
-          <div>
-            <h3 class="text-xl font-bold text-white">Software Developer</h3>
-            <p class="text-ks-green font-medium">Inditek Pioneer Solutions</p>
-            <p class="text-slate-400 text-sm">Jun 2018 – Dec 2019</p>
-          </div>
-        </div>
-        <ul class="space-y-3">
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Built scalable backend APIs using Django, integrating 10+ user interfaces with optimized database queries processing 100K+ daily transactions, improving overall system performance by 20% and reducing downtime by 15% through critical production fixes</p>
-          </li>
-          <li class="flex items-start gap-3">
-            <div class="w-2 h-2 rounded-full bg-ks-green mt-2 flex-shrink-0"></div>
-            <p class="text-slate-300">Developed a content aggregation and tracking system with advanced database optimization and caching, accelerating data retrieval speed by 71% and enhancing platform responsiveness for 1,000+ users</p>
-          </li>
-        </ul>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-
-
-<!-- PROJECTS -->
-<section id="projects" class="mt-20">
-  <div class="container">
-    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Projects</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- RAG Chatbot -->
-      <article class="glass card rounded-2xl overflow-hidden">
-        <div class="tech-cover">
-          <div class="tech-badges">
-            <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white" alt="React 19">
-            <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript">
-            <img src="https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white" alt="FastAPI">
-            <img src="https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white" alt="OpenAI">
-            <img src="https://img.shields.io/badge/RAG-FF6B6B?logo=python&logoColor=white" alt="RAG">
-            <img src="https://img.shields.io/badge/FAISS-4A90E2?logo=python&logoColor=white" alt="FAISS">
-          </div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-semibold">RAG Chatbot - Interview Prep Assistant</h3>
-          <p class="mt-2 text-sm text-slate-300">Advanced dual-persona RAG chatbot for interview preparation with 557+ knowledge chunks, dual AI profiles, and voice transcription.</p>
-          <div class="mt-4 flex gap-3">
-            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/rag-chatbot" target="_blank" rel="noopener">GitHub</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Real-time Fraud Detection System -->
-      <article class="glass card rounded-2xl overflow-hidden">
-        <div class="tech-cover">
-          <div class="tech-badges">
-            <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python">
-            <img src="https://img.shields.io/badge/Apache%20Kafka-231F20?logo=apachekafka&logoColor=white" alt="Kafka">
-            <img src="https://img.shields.io/badge/Apache%20Spark-E25A1C?logo=apachespark&logoColor=white" alt="Spark">
-            <img src="https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white" alt="Redis">
-            <img src="https://img.shields.io/badge/MLflow-0194E2?logo=mlflow&logoColor=white" alt="MLflow">
-            <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker">
-          </div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-semibold">Real-time Fraud Detection System</h3>
-          <p class="mt-2 text-sm text-slate-300">ML-powered fraud detection pipeline processing millions of transactions with sub-second latency.</p>
-          <div class="mt-4 flex gap-3">
-            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/fraud-detection-system" target="_blank" rel="noopener">GitHub</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Finance Tracker Pipeline -->
-      <article class="glass card rounded-2xl overflow-hidden">
-        <div class="tech-cover">
-          <div class="tech-badges">
-            <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python">
-            <img src="https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=white" alt="pandas">
-            <img src="https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white" alt="SQLite">
-            <img src="https://img.shields.io/badge/Data%20Analysis-FF6B6B?logo=python&logoColor=white" alt="Data Analysis">
-            <img src="https://img.shields.io/badge/ETL-4A90E2?logo=python&logoColor=white" alt="ETL">
-            <img src="https://img.shields.io/badge/Visualization-FF9F43?logo=python&logoColor=white" alt="Visualization">
-          </div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-semibold">Finance Tracker Pipeline</h3>
-          <p class="mt-2 text-sm text-slate-300">Process, transform, and analyze expense data using Python and pandas.</p>
-          <div class="mt-4 flex gap-3">
-            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/finance-tracker-pipeline" target="_blank" rel="noopener">GitHub</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Stock Price Prediction -->
-      <article class="glass card rounded-2xl overflow-hidden">
-        <div class="tech-cover">
-          <div class="tech-badges">
-            <img src="https://img.shields.io/badge/Jupyter-F37626?logo=jupyter&logoColor=white" alt="Jupyter">
-            <img src="https://img.shields.io/badge/scikit--learn-F7931E?logo=scikit-learn&logoColor=white" alt="scikit-learn">
-            <img src="https://img.shields.io/badge/Keras-D00000?logo=keras&logoColor=white" alt="Keras">
-            <img src="https://img.shields.io/badge/LSTM-FF6B6B?logo=python&logoColor=white" alt="LSTM">
-            <img src="https://img.shields.io/badge/ML-4A90E2?logo=python&logoColor=white" alt="Machine Learning">
-            <img src="https://img.shields.io/badge/Deep%20Learning-FF9F43?logo=python&logoColor=white" alt="Deep Learning">
-          </div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-semibold">Stock Price Prediction</h3>
-          <p class="mt-2 text-sm text-slate-300">Use ML and deep learning to predict stock market trends.</p>
-          <div class="mt-4 flex gap-3">
-            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/stock-price-prediction" target="_blank" rel="noopener">GitHub</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Market Basket Analysis -->
-      <article class="glass card rounded-2xl overflow-hidden">
-        <div class="tech-cover">
-          <div class="tech-badges">
-            <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python">
-            <img src="https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=white" alt="pandas">
-            <img src="https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit">
-            <img src="https://img.shields.io/badge/mlxtend-FF6B6B?logo=python&logoColor=white" alt="mlxtend">
-            <img src="https://img.shields.io/badge/FP--Growth-4A90E2?logo=python&logoColor=white" alt="FP-Growth">
-            <img src="https://img.shields.io/badge/Association%20Rules-FF9F43?logo=python&logoColor=white" alt="Association Rules">
-          </div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-semibold">Market Basket Analysis</h3>
-          <p class="mt-2 text-sm text-slate-300">Analyze purchasing patterns with association rule mining and FP-Growth.</p>
-          <div class="mt-4 flex gap-3">
-            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/market-basket-analysis" target="_blank" rel="noopener">GitHub</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Vehicle Telemetry Pipeline -->
-      <article class="glass card rounded-2xl overflow-hidden">
-        <div class="tech-cover">
-          <div class="tech-badges">
-            <img src="https://img.shields.io/badge/Apache%20Kafka-231F20?logo=apachekafka&logoColor=white" alt="Kafka">
-            <img src="https://img.shields.io/badge/Apache%20Spark-E25A1C?logo=apachespark&logoColor=white" alt="Spark">
-            <img src="https://img.shields.io/badge/Cassandra-1287B1?logo=apachecassandra&logoColor=white" alt="Cassandra">
-            <img src="https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit">
-            <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python">
-            <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker">
-          </div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-semibold">Vehicle Telemetry Pipeline</h3>
-          <p class="mt-2 text-sm text-slate-300">Kafka + Spark streaming with Cassandra & Streamlit, real-time anomaly detection.</p>
-          <div class="mt-4 flex gap-3">
-            <a class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik/vehicle-telemetry-pipeline" target="_blank" rel="noopener">GitHub</a>
-          </div>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- EDUCATION -->
-<section id="education" class="mt-20">
-  <div class="container">
-    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Education</h2>
-    <div class="grid md:grid-cols-2 gap-6">
-      <article class="glass card rounded-2xl p-6">
-        <h3 class="font-semibold">Master of Science in Computer Science</h3>
-        <p class="text-slate-300 text-sm">University of North Texas • Denton, TX • 2021</p>
-        <p class="text-slate-300 text-sm mt-2">Focus: Data Science & Analytics, Machine Learning, Big Data Processing</p>
-        <p class="text-slate-300 text-sm mt-2">Relevant Coursework: Advanced Data Mining, Machine Learning, Database Systems, Software Engineering</p>
-      </article>
-      <article class="glass card rounded-2xl p-6">
-        <h3 class="font-semibold">Bachelor of Technology in Information Technology</h3>
-        <p class="text-slate-300 text-sm">GITAM University • Visakhapatnam, India • 2019</p>
-        <p class="text-slate-300 text-sm mt-2">Focus: Software Development, Database Management, Web Technologies</p>
-        <p class="text-slate-300 text-sm mt-2">Relevant Coursework: Data Structures, Algorithms, Database Design, Web Development, Software Engineering</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- PUBLICATIONS -->
-<section id="publications" class="mt-20">
-  <div class="container">
-    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Publications</h2>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Springer chapter -->
-      <article class="glass card rounded-2xl p-6">
-        <a class="font-semibold hover:underline" target="_blank" rel="noopener"
-           href="https://link.springer.com/referenceworkentry/10.1007/978-3-030-72322-4_135-1">
-          AI for Electricity Market Design
-        </a>
-        <p class="text-slate-300 text-sm mt-1">
-          Book Chapter — <span class="text-slate-200">Handbook of Smart Energy Systems</span>, Springer (2023)
-        </p>
-        <p class="text-slate-300 text-sm mt-3">
-          Published chapter on artificial intelligence applications in electricity market design and optimization.
-        </p>
-        <div class="mt-4 flex flex-wrap gap-2 text-xs">
-          <span class="px-2 py-1 rounded bg-white/10">AI</span>
-          <span class="px-2 py-1 rounded bg-white/10">Energy Systems</span>
-          <span class="px-2 py-1 rounded bg-white/10">Optimization</span>
-        </div>
-      </article>
-
-      <!-- Featured Medium article -->
-      <article class="glass card rounded-2xl p-6">
-        <a class="font-semibold hover:underline" target="_blank" rel="noopener"
-           href="https://medium.com/@codebykrishna/optimizing-parallel-computing-architectures-for-big-data-analytics-80eb7272377b">
-          Optimizing Parallel Computing Architectures for Big Data Analytics
-        </a>
-        <p class="text-slate-300 text-sm mt-1">
-          Feature Article — Medium (Dec 2024) • 8 min read
-        </p>
-        <p class="text-slate-300 text-sm mt-3">
-          How to leverage parallel computing to process and analyze data efficiently at scale.
-        </p>
-        <div class="mt-4 flex flex-wrap gap-2 text-xs">
-          <span class="px-2 py-1 rounded bg-white/10">Big Data</span>
-          <span class="px-2 py-1 rounded bg-white/10">Parallel Computing</span>
-          <span class="px-2 py-1 rounded bg-white/10">Performance</span>
-        </div>
-      </article>
-
-      <!-- Additional Medium articles -->
-      <article class="glass card rounded-2xl p-6">
-        <a class="font-semibold hover:underline" target="_blank" rel="noopener"
-           href="https://medium.com/@codebykrishna">
-          Data Engineering & Cloud Architecture Articles
-        </a>
-        <p class="text-slate-300 text-sm mt-1">
-          Blog Series — Medium • Multiple articles
-        </p>
-        <p class="text-slate-300 text-sm mt-3">
-          Regular content on data engineering best practices, cloud architecture, and real-world data solutions.
-        </p>
-        <div class="mt-4 flex flex-wrap gap-2 text-xs">
-          <span class="px-2 py-1 rounded bg-white/10">Data Engineering</span>
-          <span class="px-2 py-1 rounded bg-white/10">Cloud Architecture</span>
-          <span class="px-2 py-1 rounded bg-white/10">Best Practices</span>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- CERTIFICATIONS -->
-<section id="certs" class="mt-20">
-  <div class="container">
-    <h2 class="section-title text-2xl sm:text-3xl font-extrabold mb-6">Certifications</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <a class="glass card rounded-2xl p-5 hover:bg-white/10" target="_blank" rel="noopener"
-         href="https://learn.microsoft.com/en-us/users/krishnamantripragada/credentials/2ca6d7588001cc9f?ref=https%3A%2F%2Fwww.credly.com%2F">
-        <h3 class="font-semibold">Microsoft Azure Data Engineer Associate</h3>
-        <p class="text-slate-300 text-sm mt-1">Active • Credential ID: 2CA6D7588001CC9F</p>
-        <p class="text-slate-300 text-sm mt-2">Designing and implementing data storage, data processing, and data security solutions using Azure services.</p>
-      </a>
-      <a class="glass card rounded-2xl p-5 hover:bg-white/10" target="_blank" rel="noopener"
-         href="https://learn.microsoft.com/en-us/users/krishnamantripragada/credentials/61b6fe700a01ec6?ref=https%3A%2F%2Fwww.credly.com%2F">
-        <h3 class="font-semibold">Microsoft Azure AI Engineer Associate</h3>
-        <p class="text-slate-300 text-sm mt-1">Active • Credential ID: 61B6FE700A01EC6</p>
-        <p class="text-slate-300 text-sm mt-2">Designing and implementing AI solutions using Azure Cognitive Services, Azure Machine Learning, and Azure Bot Service.</p>
-      </a>
-      <a class="glass card rounded-2xl p-5 hover:bg-white/10" target="_blank" rel="noopener"
-         href="https://www.credly.com/users/krishna-sathvik-mantripragada/badges">
-        <h3 class="font-semibold">O'Reilly ChatGPT Data Analysis</h3>
-        <p class="text-slate-300 text-sm mt-1">Active • 2025</p>
-        <p class="text-slate-300 text-sm mt-2">Advanced techniques for using ChatGPT and AI tools for data analysis and business intelligence.</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" class="mt-20 mb-24">
-  <div class="container">
-    <div class="glass card rounded-3xl p-6 md:p-8">
-      <div class="grid md:grid-cols-2 gap-8">
+  <!-- AI/ML/GenAI Personal Projects -->
+  <section id="ai-projects" class="px-4 md:px-6 py-20 md:py-32 bg-background">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-start mb-16 md:mb-24 border-b border-black/10 pb-6">
         <div>
-          <h2 class="section-title text-2xl sm:text-3xl font-extrabold">Get in touch</h2>
-          <p class="mt-3 text-slate-300">
-            Prefer email?
-            <a class="text-ks-green hover:underline" href="mailto:krishnasathvikm@gmail.com">krishnasathvikm@gmail.com</a>
+          <h2 class="text-4xl md:text-7xl font-semibold tracking-tighter uppercase mb-2">AI/ML & GenAI</h2>
+          <p class="font-mono text-xs md:text-sm text-secondary">Personal Research & Projects</p>
+        </div>
+      </div>
+
+      <div class="mb-8 p-6 bg-white rounded-sm border border-black/10">
+        <p class="text-secondary text-base md:text-lg leading-relaxed">
+          Beyond my professional data engineering work, I actively explore AI/ML, GenAI, and RAG technologies through hands-on projects. I build proof-of-concepts with LangChain, vector databases, and LLMs to understand how these tools work in practice and stay current with the AI landscape.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- RAG Chatbot Project -->
+        <article class="group project-card rounded-sm overflow-hidden border border-black/10 bg-white">
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i data-lucide="brain" class="w-5 h-5 text-accent"></i>
+              <span class="font-mono text-[10px] uppercase tracking-widest text-accent">RAG System</span>
+            </div>
+            <h3 class="font-semibold text-xl mb-2">RAG Chatbot - Interview Prep Assistant</h3>
+            <p class="text-secondary text-sm mb-4">Advanced dual-persona RAG chatbot for interview preparation with 557+ knowledge chunks, dual AI profiles (GPT-4 + Claude), and voice transcription capabilities.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">RAG</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">OpenAI GPT-4</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">Claude</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">Vector DB</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">LangChain</span>
+            </div>
+            <a href="https://github.com/KrishnaSathvik/rag-chatbot" target="_blank" rel="noopener" class="text-xs font-semibold uppercase tracking-widest hover:text-accent transition-colors inline-flex items-center gap-2">
+              View Project <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- GenAI Applications -->
+        <article class="group project-card rounded-sm overflow-hidden border border-black/10 bg-white">
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i data-lucide="sparkles" class="w-5 h-5 text-accent"></i>
+              <span class="font-mono text-[10px] uppercase tracking-widest text-accent">GenAI</span>
+            </div>
+            <h3 class="font-semibold text-xl mb-2">Generative AI Applications</h3>
+            <p class="text-secondary text-sm mb-4">Building production applications with GPT-4, Claude, and other LLMs. Exploring prompt engineering, fine-tuning, and agent-based architectures for real-world use cases.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">OpenAI API</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">Anthropic Claude</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">Prompt Engineering</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">LLM Agents</span>
+            </div>
+            <p class="text-xs text-secondary italic">Ongoing exploration and experimentation</p>
+          </div>
+        </article>
+
+        <!-- ML Projects -->
+        <article class="group project-card rounded-sm overflow-hidden border border-black/10 bg-white">
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i data-lucide="trending-up" class="w-5 h-5 text-accent"></i>
+              <span class="font-mono text-[10px] uppercase tracking-widest text-accent">Machine Learning</span>
+            </div>
+            <h3 class="font-semibold text-xl mb-2">ML & Deep Learning Projects</h3>
+            <p class="text-secondary text-sm mb-4">Personal ML projects including stock prediction with LSTM networks, fraud detection systems, and time series forecasting. Focus on production-ready implementations and model optimization.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">LSTM</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">XGBoost</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">TensorFlow</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">PyTorch</span>
+            </div>
+            <a href="https://github.com/KrishnaSathvik" target="_blank" rel="noopener" class="text-xs font-semibold uppercase tracking-widest hover:text-accent transition-colors inline-flex items-center gap-2">
+              View Projects <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- AI Research & Learning -->
+        <article class="group project-card rounded-sm overflow-hidden border border-black/10 bg-white">
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i data-lucide="book-open" class="w-5 h-5 text-accent"></i>
+              <span class="font-mono text-[10px] uppercase tracking-widest text-accent">Research</span>
+            </div>
+            <h3 class="font-semibold text-xl mb-2">AI Research & Continuous Learning</h3>
+            <p class="text-secondary text-sm mb-4">Staying current with latest AI/ML research, experimenting with new architectures, and contributing to open-source AI projects. Regularly building proof-of-concepts and sharing learnings.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">Research Papers</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">Open Source</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">Experimentation</span>
+              <span class="px-2 py-1 border border-black/10 rounded-full text-[10px] font-mono uppercase text-secondary bg-background">Knowledge Sharing</span>
+            </div>
+            <p class="text-xs text-secondary italic">Active learning and contribution</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Terminal Section -->
+  <section id="ai" class="bg-[#050505] text-gray-300 py-20 md:py-32 px-4 md:px-6 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:3rem_3rem] md:bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none opacity-20"></div>
+    
+    <div class="max-w-[1000px] mx-auto relative z-10">
+      <div class="text-center mb-10 md:mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-6">
+          <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-white">AI Powered</span>
+        </div>
+        <h2 class="text-3xl md:text-6xl font-semibold tracking-tighter text-white mb-4">Ask my AI Assistant</h2>
+        <p class="text-gray-400 max-w-md mx-auto font-light text-sm md:text-lg">
+          Query my background, tech stack, or availability. It reads directly from my resume data.
+        </p>
+      </div>
+
+      <div class="w-full bg-[#0F0F0F] border border-white/10 rounded-lg shadow-2xl overflow-hidden flex flex-col">
+        <div class="bg-[#151515] px-4 py-3 flex items-center gap-4 border-b border-white/5 shrink-0">
+          <div class="flex gap-1.5 md:gap-2">
+            <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500/20 border border-red-500/50"></div>
+            <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50"></div>
+            <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500/20 border border-green-500/50"></div>
+          </div>
+          <div class="flex-1 text-center font-mono text-[10px] md:text-xs text-gray-500">krishna-bot — node — 80x24</div>
+        </div>
+        <div class="p-4 md:p-6 font-mono text-xs md:text-base h-[350px] md:h-[400px] flex flex-col bg-black/50 backdrop-blur-sm">
+          <div id="terminal-output" class="space-y-3 md:space-y-4 mb-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">
+            <div class="text-green-400/90">
+              <span class="text-accent">➜</span>  ~  System online. Try asking: "What is your experience with Azure?"
+            </div>
+          </div>
+          <div class="flex items-center gap-2 md:gap-3 pt-3 border-t border-white/10 shrink-0">
+            <span class="text-accent">➜</span>
+            <span class="text-blue-400">~</span>
+            <input type="text" id="ai-input" class="bg-transparent border-none outline-none text-white w-full placeholder-gray-700 focus:placeholder-gray-600" placeholder="Type your question..." autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-2 md:gap-3 mt-6 md:mt-8">
+        <button class="quick-prompt px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/5 rounded text-[10px] md:text-xs font-mono text-gray-400 transition-colors">"Core skills?"</button>
+        <button class="quick-prompt px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/5 rounded text-[10px] md:text-xs font-mono text-gray-400 transition-colors">"Previous roles?"</button>
+        <button class="quick-prompt px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/5 rounded text-[10px] md:text-xs font-mono text-gray-400 transition-colors">"Contact info?"</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience & About -->
+  <section id="experience" class="px-4 md:px-6 py-20 md:py-32 bg-white">
+    <div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+      <div class="relative">
+        <div class="md:sticky md:top-32">
+          <h2 class="text-4xl md:text-6xl font-semibold tracking-tighter uppercase mb-6 md:mb-8">Career<br>Timeline</h2>
+          <div class="w-12 md:w-16 h-1 bg-accent mb-6 md:mb-8"></div>
+          <p class="text-secondary text-base md:text-lg leading-relaxed mb-4">
+            I'm a Senior Data Engineer passionate about building data infrastructure that empowers organizations to make data-driven decisions at scale. With expertise spanning cloud platforms (Azure, AWS), modern data stacks (Snowflake, Databricks, dbt), and real-time streaming (Kafka, Flink), I specialize in turning complex data challenges into elegant, scalable solutions.
           </p>
-          <ul class="mt-6 space-y-2 text-slate-300">
-            <li>📞 (940) 331-8276</li>
-            <li>
-              🔗
-              <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://www.linkedin.com/in/krishnasathvik/">LinkedIn</a>
-              •
-              <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://github.com/KrishnaSathvik">GitHub</a>
-              •
-              <a target="_blank" rel="noopener" class="text-ks-green hover:underline" href="https://medium.com/@codebykrishna">Medium</a>
-            </li>
+          <p class="text-secondary text-base md:text-lg leading-relaxed mb-4">
+            Currently at Walgreens Boots Alliance, I design and operate enterprise data platforms processing terabytes of healthcare and retail data monthly, enabling analytics, machine learning, and operational insights for teams across finance, supply chain, and product.
+          </p>
+          <p class="text-secondary text-base md:text-lg leading-relaxed mb-4">
+            Outside of work, I actively explore AI/ML, GenAI, and RAG technologies—building production applications, experimenting with cutting-edge techniques, and contributing to the AI community. This personal research complements my professional work and keeps me at the forefront of data and AI innovation.
+          </p>
+          <p class="text-secondary text-base md:text-lg leading-relaxed italic">
+            What drives me: Building systems that don't just work today, but scale for tomorrow. I believe great data engineering is invisible to end users—it just works, reliably and efficiently.
+          </p>
+          <div class="mt-8 md:mt-12 p-5 md:p-6 bg-background rounded-lg border border-black/5">
+            <h4 class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-accent mb-3">Education</h4>
+            <p class="font-semibold text-sm md:text-base">Master of Science in Computer Science</p>
+            <p class="text-xs md:text-sm text-secondary">University of North Texas • 2021</p>
+            <p class="font-semibold text-sm md:text-base mt-4">Bachelor of Technology in IT</p>
+            <p class="text-xs md:text-sm text-secondary">GITAM University • 2019</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-12 md:space-y-16 border-l border-black/10 pl-6 md:pl-12 mt-4 md:mt-0">
+        <div class="relative group">
+          <div class="absolute -left-[1.95rem] md:-left-[3.25rem] top-1.5 md:top-2 w-2.5 h-2.5 md:w-3 md:h-3 bg-white border-2 border-accent rounded-full z-10 group-hover:bg-accent transition-colors"></div>
+          <h3 class="text-xl md:text-2xl font-semibold tracking-tight">Senior Data Engineer</h3>
+          <p class="font-mono text-xs md:text-sm text-accent mt-1 mb-3 uppercase tracking-wider">Walgreens Boots Alliance / Feb 2022 — Present</p>
+          <ul class="space-y-2 text-secondary list-disc pl-4 text-sm md:text-base marker:text-gray-300">
+            <li>Design and operate enterprise data platform in Databricks, Snowflake, and Azure processing 10+ TB monthly from 15+ sources; built scalable ETL/ELT pipelines delivering trusted datasets with 99.9% availability</li>
+            <li>Build and maintain production dbt transformations and dimensional models; created governed semantic layers and data marts used by 500+ analysts and business users</li>
+            <li>Implement comprehensive data quality frameworks and monitoring with Python and dbt tests; reduced data incidents 45%, eliminated 200+ hours of monthly remediation</li>
+            <li>Partner daily with data scientists to support feature engineering and ML model development; created reusable feature stores that cut model deployment time 45%</li>
+            <li>Orchestrate complex workflows with Apache Airflow including lineage tracking, SLA monitoring, and alerting; improved pipeline success rate from 92% to 99.8%</li>
+            <li>Mentor 6 junior engineers on data engineering best practices, code reviews, and operational excellence; improved team velocity 40% and reduced production incidents 50%</li>
           </ul>
         </div>
-
-        <form id="contactForm" class="space-y-3">
-          <input required name="name" placeholder="Your Name" class="input" />
-          <input required type="email" name="email" placeholder="Your Email" class="input" />
-          <input required name="subject" placeholder="Subject" class="input" />
-          <input name="company" placeholder="Company (optional)" class="input" />
-          <input name="reason" placeholder="Contact Reason (e.g., Job, Partnership)" class="input" />
-
-          <!-- hidden context + honeypot -->
-          <input type="hidden" name="page_url" value="" />
-          <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" />
-
-          <textarea required name="message" rows="5" placeholder="Message" class="input"></textarea>
-          <button type="submit" class="btn-primary w-full md:w-auto">Send Message</button>
-          <p id="formMsg" class="text-sm text-slate-300" aria-live="polite"></p>
-        </form>
+        <div class="relative group">
+          <div class="absolute -left-[1.95rem] md:-left-[3.25rem] top-1.5 md:top-2 w-2.5 h-2.5 md:w-3 md:h-3 bg-white border-2 border-gray-300 rounded-full z-10 group-hover:border-accent transition-colors"></div>
+          <h3 class="text-xl md:text-2xl font-semibold tracking-tight">Analytics Engineer</h3>
+          <p class="font-mono text-xs md:text-sm text-secondary mt-1 mb-3 uppercase tracking-wider">CVS Health / Oct 2020 — Dec 2021</p>
+          <ul class="space-y-2 text-secondary list-disc pl-4 text-sm md:text-base marker:text-gray-300">
+            <li>Engineered modular dbt transformations and dimensional models in Snowflake processing 7M+ daily records; created reusable analytics-ready datasets and data marts for forecasting and planning</li>
+            <li>Developed Python and SQL-based ETL pipelines with Airflow orchestration; integrated production databases, claims systems, and third-party APIs reducing data refresh time from 8 hours to 2 hours</li>
+            <li>Implemented data quality frameworks and monitoring; established validation checks and automated remediation reducing manual fixes by 30%</li>
+            <li>Collaborated with data science teams to productionize ML models; delivered feature pipelines with automated validation that raised prediction accuracy 16%</li>
+            <li>Delivered certified semantic models and datasets consumed by Tableau and Power BI users; accelerated leadership reporting by 3 days</li>
+          </ul>
+        </div>
+        <div class="relative group">
+          <div class="absolute -left-[1.95rem] md:-left-[3.25rem] top-1.5 md:top-2 w-2.5 h-2.5 md:w-3 md:h-3 bg-white border-2 border-gray-300 rounded-full z-10 group-hover:border-accent transition-colors"></div>
+          <h3 class="text-xl md:text-2xl font-semibold tracking-tight">Data Science Intern</h3>
+          <p class="font-mono text-xs md:text-sm text-secondary mt-1 mb-3 uppercase tracking-wider">McKesson Corporation / Mar 2020 — Sep 2020</p>
+          <ul class="space-y-2 text-secondary list-disc pl-4 text-sm md:text-base marker:text-gray-300">
+            <li>Built data pipelines processing 2M+ prescription and utilization records with Python, Spark, and SQL; implemented automated quality gates that improved data accuracy 22%</li>
+            <li>Created reusable, versioned feature tables consumed by XGBoost and forecasting models; reduced training time 40% and improved reliability 16%</li>
+            <li>Developed monitoring dashboards in Tableau providing real-time visibility into pipeline health; reduced incident detection from hours to minutes</li>
+            <li>Supported supply chain analytics by delivering clean, documented datasets; enabled accurate procurement decisions and improved inventory optimization reducing excess costs 12%</li>
+          </ul>
+        </div>
+        <div class="relative group">
+          <div class="absolute -left-[1.95rem] md:-left-[3.25rem] top-1.5 md:top-2 w-2.5 h-2.5 md:w-3 md:h-3 bg-white border-2 border-gray-300 rounded-full z-10 group-hover:border-accent transition-colors"></div>
+          <h3 class="text-xl md:text-2xl font-semibold tracking-tight">Software Developer</h3>
+          <p class="font-mono text-xs md:text-sm text-secondary mt-1 mb-3 uppercase tracking-wider">Inditek Pioneer Solutions / Jun 2018 — Dec 2019</p>
+          <ul class="space-y-2 text-secondary list-disc pl-4 text-sm md:text-base marker:text-gray-300">
+            <li>Developed Python and SQL ETL integrations handling 100K+ daily healthcare transactions; delivered stable feeds with 99.8% availability supporting client analytics and reporting</li>
+            <li>Optimized SQL queries, stored procedures, and indexes across large datasets; reduced data access latency 28% and improved performance for downstream analytics consumers</li>
+            <li>Implemented SDLC best practices including code reviews, testing, and documentation; ensured reliability, maintainability, and scalability of data integrations</li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer class="text-center text-slate-400 pb-10">
-  © <span id="yr"></span> Krishna Sathvik • Built with Tailwind • Deployed on Vercel
-</footer>
+  <!-- Core Competencies Section -->
+  <section id="competencies" class="px-4 md:px-6 py-20 md:py-32 bg-white">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-4xl md:text-7xl font-semibold tracking-tighter uppercase mb-16 md:mb-24">Core Competencies</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="p-6 bg-background rounded-sm border border-black/10">
+          <i data-lucide="layers" class="w-8 h-8 text-accent mb-3"></i>
+          <h3 class="font-semibold mb-2">Data Architecture & Design</h3>
+          <p class="text-secondary text-sm">Enterprise data platform design, Medallion/Lakehouse architecture, dimensional modeling, cloud-native data solutions</p>
+        </div>
+        <div class="p-6 bg-background rounded-sm border border-black/10">
+          <i data-lucide="workflow" class="w-8 h-8 text-accent mb-3"></i>
+          <h3 class="font-semibold mb-2">ETL/ELT Pipeline Engineering</h3>
+          <p class="text-secondary text-sm">Real-time streaming with Kafka/Flink, batch processing with Airflow/Spark, production-grade dbt transformations</p>
+        </div>
+        <div class="p-6 bg-background rounded-sm border border-black/10">
+          <i data-lucide="shield-check" class="w-8 h-8 text-accent mb-3"></i>
+          <h3 class="font-semibold mb-2">Data Quality & Governance</h3>
+          <p class="text-secondary text-sm">Comprehensive validation frameworks, automated monitoring, metadata management, GDPR/CCPA compliance</p>
+        </div>
+        <div class="p-6 bg-background rounded-sm border border-black/10">
+          <i data-lucide="brain" class="w-8 h-8 text-accent mb-3"></i>
+          <h3 class="font-semibold mb-2">ML/AI Data Infrastructure</h3>
+          <p class="text-secondary text-sm">Feature store development, MLOps pipeline automation, model training/deployment support</p>
+        </div>
+        <div class="p-6 bg-background rounded-sm border border-black/10">
+          <i data-lucide="cloud" class="w-8 h-8 text-accent mb-3"></i>
+          <h3 class="font-semibold mb-2">Cloud Data Platforms</h3>
+          <p class="text-secondary text-sm">Azure (Databricks, Synapse, Data Lake), AWS (S3, Glue, EMR), Snowflake, dbt, Delta Lake</p>
+        </div>
+        <div class="p-6 bg-background rounded-sm border border-black/10">
+          <i data-lucide="refresh-cw" class="w-8 h-8 text-accent mb-3"></i>
+          <h3 class="font-semibold mb-2">DataOps & Automation</h3>
+          <p class="text-secondary text-sm">CI/CD for data pipelines, Infrastructure as Code, automated testing and deployment</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- EmailJS + site script -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-  // mobile nav
-  const btn = document.getElementById('navBtn');
-  const drawer = document.getElementById('navDrawer');
-  btn?.addEventListener('click', () => drawer.classList.toggle('hidden'));
-  drawer?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => drawer.classList.add('hidden')));
+  <!-- Skills Section -->
+  <section id="about" class="px-4 md:px-6 py-20 md:py-32 bg-background">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-4xl md:text-7xl font-semibold tracking-tighter uppercase mb-16 md:mb-24">Technical Skills</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Data Engineering & ETL -->
+        <div class="p-6 bg-white rounded-sm border border-black/10">
+          <h3 class="font-semibold mb-2">Data Engineering & ETL</h3>
+          <p class="text-secondary text-sm">dbt, Azure Data Factory, Airflow, Data Orchestration, ETL Pipelines, Apache Kafka, Apache Spark</p>
+        </div>
 
-  // year
-  document.getElementById('yr').textContent = new Date().getFullYear();
+        <!-- AI & Machine Learning -->
+        <div class="p-6 bg-white rounded-sm border border-black/10">
+          <h3 class="font-semibold mb-2">AI & Machine Learning</h3>
+          <p class="text-secondary text-sm">Predictive Modeling, Forecasting, Anomaly Detection, Azure ML, Deep Learning, LSTM, RAG, LLM, OpenAI API, LangChain, Vector Databases, Prompt Engineering, HuggingFace, MLflow, Feature Store</p>
+        </div>
 
-  // CONTACT form + EmailJS
-  (function () {
-    const form = document.getElementById('contactForm');
-    const msg  = document.getElementById('formMsg');
-    const btn  = form.querySelector('button[type="submit"]');
+        <!-- Cloud & Databases -->
+        <div class="p-6 bg-white rounded-sm border border-black/10">
+          <h3 class="font-semibold mb-2">Cloud & Databases</h3>
+          <p class="text-secondary text-sm">Azure, AWS, Snowflake, Redshift, BigQuery, PostgreSQL, MySQL, Oracle, Cassandra</p>
+        </div>
 
-    // set page URL for context
-    form.page_url.value = location.href;
+        <!-- DevOps & Automation -->
+        <div class="p-6 bg-white rounded-sm border border-black/10">
+          <h3 class="font-semibold mb-2">DevOps & Automation</h3>
+          <p class="text-secondary text-sm">Workflow Automation, CI/CD for Data, Data Quality Monitoring, Docker, Azure DevOps</p>
+        </div>
 
-    // init EmailJS (replace with your actual Public Key)
-    emailjs.init({ publicKey: 'Y4GV402rZ348jDsIl' });
+        <!-- BI & Visualization -->
+        <div class="p-6 bg-white rounded-sm border border-black/10">
+          <h3 class="font-semibold mb-2">BI & Visualization</h3>
+          <p class="text-secondary text-sm">Power BI, Tableau, Looker, Streamlit, Chart.js, Recharts</p>
+        </div>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+        <!-- Programming & Analysis -->
+        <div class="p-6 bg-white rounded-sm border border-black/10">
+          <h3 class="font-semibold mb-2">Programming & Analysis</h3>
+          <p class="text-secondary text-sm">Python, Java, SQL, R, JavaScript, TypeScript, Market Basket Analysis, Association Rule Mining, FP-Growth, Statistical Analysis</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      // basic honeypot
-      if (form.website.value) {
-        msg.textContent = 'Blocked by spam filter.';
-        return;
-      }
+  <!-- Certifications -->
+  <section id="certs" class="px-4 md:px-6 py-20 md:py-32 bg-white">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-4xl md:text-7xl font-semibold tracking-tighter uppercase mb-16 md:mb-24">Certifications</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="https://learn.microsoft.com/en-us/users/krishnamantripragada/credentials/2ca6d7588001cc9f" target="_blank" rel="noopener" class="p-6 bg-background rounded-sm border border-black/10 hover:border-accent transition-colors">
+          <i data-lucide="cloud" class="w-6 h-6 text-accent mb-2"></i>
+          <h3 class="font-semibold mb-2">Microsoft Azure Data Engineer Associate</h3>
+          <p class="text-secondary text-sm">Active • Credential ID: 2CA6D7588001CC9F</p>
+          <p class="text-secondary text-sm mt-2">Designing and implementing data storage, data processing, and data security solutions using Azure services.</p>
+        </a>
+        <a href="https://learn.microsoft.com/en-us/users/krishnamantripragada/credentials/61b6fe700a01ec6" target="_blank" rel="noopener" class="p-6 bg-background rounded-sm border border-black/10 hover:border-accent transition-colors">
+          <i data-lucide="cloud" class="w-6 h-6 text-accent mb-2"></i>
+          <h3 class="font-semibold mb-2">Microsoft Azure AI Engineer Associate</h3>
+          <p class="text-secondary text-sm">Active • Credential ID: 61B6FE700A01EC6</p>
+          <p class="text-secondary text-sm mt-2">Designing and implementing AI solutions using Azure Cognitive Services, Azure Machine Learning, and Azure Bot Service.</p>
+        </a>
+        <div class="p-6 bg-background rounded-sm border border-black/10 border-dashed">
+          <i data-lucide="snowflake" class="w-6 h-6 text-accent mb-2"></i>
+          <h3 class="font-semibold mb-2">SnowPro Core Certification</h3>
+          <p class="text-secondary text-sm">In Progress</p>
+          <p class="text-secondary text-sm mt-2">Validates expertise in Snowflake data warehousing, administration, and analytics.</p>
+        </div>
+        <div class="p-6 bg-background rounded-sm border border-black/10 border-dashed">
+          <i data-lucide="box" class="w-6 h-6 text-accent mb-2"></i>
+          <h3 class="font-semibold mb-2">Databricks Certified Data Engineer</h3>
+          <p class="text-secondary text-sm">In Progress</p>
+          <p class="text-secondary text-sm mt-2">Certified in Databricks lakehouse architecture, Spark, and data engineering best practices.</p>
+        </div>
+        <div class="p-6 bg-background rounded-sm border border-black/10 border-dashed">
+          <i data-lucide="database" class="w-6 h-6 text-accent mb-2"></i>
+          <h3 class="font-semibold mb-2">dbt Analytics Engineering Certification</h3>
+          <p class="text-secondary text-sm">Planned</p>
+          <p class="text-secondary text-sm mt-2">Production-grade dbt transformations, testing, documentation, and analytics engineering.</p>
+        </div>
+        <a href="https://www.credly.com/users/krishna-sathvik-mantripragada/badges" target="_blank" rel="noopener" class="p-6 bg-background rounded-sm border border-black/10 hover:border-accent transition-colors">
+          <i data-lucide="book-open" class="w-6 h-6 text-accent mb-2"></i>
+          <h3 class="font-semibold mb-2">O'Reilly ChatGPT Data Analysis</h3>
+          <p class="text-secondary text-sm">Active • 2025</p>
+          <p class="text-secondary text-sm mt-2">Advanced techniques for using ChatGPT and AI tools for data analysis and business intelligence.</p>
+        </a>
+      </div>
+    </div>
+  </section>
 
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
-      msg.textContent = '';
+  <!-- Publications -->
+  <section id="publications" class="px-4 md:px-6 py-20 md:py-32 bg-background">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-4xl md:text-7xl font-semibold tracking-tighter uppercase mb-16 md:mb-24">Publications</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article class="p-6 bg-white rounded-sm border border-black/10">
+          <a href="https://link.springer.com/referenceworkentry/10.1007/978-3-030-72322-4_135-1" target="_blank" rel="noopener" class="font-semibold hover:text-accent transition-colors block mb-2">
+            AI for Electricity Market Design
+          </a>
+          <p class="text-secondary text-sm">
+            Book Chapter — <span class="text-primary">Handbook of Smart Energy Systems</span>, Springer (2023)
+          </p>
+          <p class="text-secondary text-sm mt-3">
+            Published chapter on artificial intelligence applications in electricity market design and optimization.
+          </p>
+        </article>
+        <article class="p-6 bg-white rounded-sm border border-black/10">
+          <a href="https://medium.com/@codebykrishna/optimizing-parallel-computing-architectures-for-big-data-analytics-80eb7272377b" target="_blank" rel="noopener" class="font-semibold hover:text-accent transition-colors block mb-2">
+            Optimizing Parallel Computing Architectures
+          </a>
+          <p class="text-secondary text-sm">
+            Feature Article — Medium (Dec 2024) • 8 min read
+          </p>
+          <p class="text-secondary text-sm mt-3">
+            How to leverage parallel computing to process and analyze data efficiently at scale.
+          </p>
+        </article>
+        <article class="p-6 bg-white rounded-sm border border-black/10">
+          <a href="https://medium.com/@codebykrishna" target="_blank" rel="noopener" class="font-semibold hover:text-accent transition-colors block mb-2">
+            Data Engineering & Cloud Architecture Articles
+          </a>
+          <p class="text-secondary text-sm">
+            Blog Series — Medium • Multiple articles
+          </p>
+          <p class="text-secondary text-sm mt-3">
+            Regular content on data engineering best practices, cloud architecture, and real-world data solutions.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-      const payload = {
-        from_name:   form.name.value.trim(),
-        from_email:  form.email.value.trim(),
-        subject:     form.subject.value.trim(),
-        company:     (form.company.value || '—').trim(),
-        reason:      (form.reason.value  || '—').trim(),
-        message:     form.message.value.trim(),
-        page_url:    form.page_url.value,
-        submitted_at: new Date().toLocaleString()
-      };
+  <!-- Contact Section -->
+  <section id="contact" class="px-4 md:px-6 py-20 md:py-40 bg-[#F5F5F5] border-t border-black/5">
+    <div class="max-w-[1200px] mx-auto text-center">
+      <p class="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-accent mb-6">Status: Available</p>
+      <h2 class="text-5xl md:text-9xl font-semibold tracking-tighter uppercase mb-10 md:mb-12 leading-none text-primary">
+        Let's Work<br>Together
+      </h2>
+      
+      <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-12">
+        <a href="mailto:krishnasathvikm@gmail.com" class="group flex items-center gap-3 text-lg md:text-2xl font-mono border-b border-black/20 pb-1 hover:border-accent hover:text-accent transition-all">
+          <i data-lucide="mail" class="w-4 h-4 md:w-5 md:h-5"></i>
+          krishnasathvikm@gmail.com
+        </a>
+      </div>
 
-      try {
-        // Replace with your Service ID and NEW template ID
-        await emailjs.send('service_z4k2e9o', 'template_portfolio', payload);
-        msg.textContent = 'Thanks! I’ll reply soon.';
-        btn.textContent = 'Sent ✓';
-        setTimeout(() => { btn.textContent = 'Send Message'; btn.disabled = false; }, 1200);
-        form.reset();
-        form.page_url.value = location.href; // keep context after reset
-      } catch (err) {
-        console.error(err);
-        msg.textContent = 'Something went wrong. Try again or email me directly.';
-        btn.disabled = false;
-        btn.textContent = 'Send Message';
+      <div class="mt-16 md:mt-24 grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-4 text-center md:text-left border-t border-black/5 pt-12">
+        <div>
+          <h4 class="font-mono text-[10px] uppercase text-secondary mb-3">Location</h4>
+          <p class="text-sm md:text-base font-medium">Jefferson City, MO</p>
+          <p class="text-sm md:text-base font-medium text-secondary">Remote (USA)</p>
+        </div>
+        <div>
+          <h4 class="font-mono text-[10px] uppercase text-secondary mb-3">Stack</h4>
+          <p class="text-sm md:text-base font-medium">Azure / Databricks / Snowflake</p>
+          <p class="text-sm md:text-base font-medium">Python / SQL / dbt</p>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-end justify-center md:justify-end mt-4 md:mt-0">
+          <button class="w-10 h-10 md:w-12 md:h-12 border border-black/10 bg-white rounded-full flex items-center justify-center hover:bg-accent hover:text-white transition-colors" onclick="lenis.scrollTo(0)">
+            <i data-lucide="arrow-up" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-primary py-6 text-center">
+    <p class="font-mono text-[10px] text-white/40 uppercase tracking-widest">© <span id="yr"></span> Krishna Sathvik. Designed with code.</p>
+  </footer>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script>
+    // Initialize Icons - call multiple times to ensure all icons render
+    lucide.createIcons({ attrs: { 'stroke-width': 1.5 } });
+    // Re-initialize after a short delay to catch any dynamically added icons
+    setTimeout(() => lucide.createIcons({ attrs: { 'stroke-width': 1.5 } }), 100);
+
+    // Year in footer
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Initialize Lenis Scrolling
+    const lenis = new Lenis({
+      duration: 0.7, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical', smoothWheel: true, touchMultiplier: 2,
+    });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    // Hide header when scrolling, only show at top
+    let lastScroll = 0;
+    let ticking = false;
+    const nav = document.getElementById('main-nav');
+    
+    lenis.on('scroll', ({ scroll, direction, velocity }) => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (scroll > 50) { // Hide after scrolling past top
+            // Always hide when scrolled down
+            nav.classList.add('nav-hidden');
+          } else {
+            // Only show at the very top (first 50px)
+            nav.classList.remove('nav-hidden');
+          }
+          lastScroll = scroll;
+          ticking = false;
+        });
+        ticking = true;
       }
     });
-  })();
-</script>
 
-<!-- Theme Switcher -->
-<script src="/js/theme-switcher.js"></script>
+    // GSAP Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Loader Sequence
+    const loaderTimeline = gsap.timeline();
+    loaderTimeline.to("#loader-progress", {
+      width: "100%", duration: 1.2, ease: "power2.inOut",
+      onUpdate: function() { document.getElementById("loader-text").innerText = Math.round(this.progress() * 100) + "%"; }
+    })
+    .to("#loader", { yPercent: -100, duration: 0.6, ease: "power4.inOut", delay: 0.1 })
+    
+    // Wispr-Style Hero Reveal (Blur -> Focus)
+    .to(".hero-glow", { opacity: 1, duration: 1.5, ease: "power2.out" }, "-=0.5")
+    .to(".hero-char", {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      duration: 1.2,
+      stagger: 0.1,
+      ease: "power3.out"
+    }, "-=1.0")
+    .to(".hero-fade-in", {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: "power2.out"
+    }, "-=0.8");
+
+    // Scroll Reveals for other sections
+    document.querySelectorAll("section:not(:first-child)").forEach(section => {
+      gsap.from(section.querySelectorAll("h2, h3, p, .project-card, li"), {
+        scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none reverse" },
+        y: 30, opacity: 0, duration: 0.6, stagger: 0.05, ease: "power2.out"
+      });
+    });
+
+    // Cursor Logic (Desktop)
+    if (window.matchMedia("(pointer: fine)").matches) {
+      const cursorDot = document.querySelector('.cursor-dot');
+      const cursorCircle = document.querySelector('.cursor-circle');
+      let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+
+      document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; gsap.to(cursorDot, { x: mouseX, y: mouseY, duration: 0 }); });
+      gsap.ticker.add(() => {
+        cursorX += (mouseX - cursorX) * 0.2; cursorY += (mouseY - cursorY) * 0.2;
+        cursorCircle.style.left = cursorX + 'px'; cursorCircle.style.top = cursorY + 'px';
+      });
+      document.querySelectorAll('a, button, .magnetic-btn').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('hover-active'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('hover-active'));
+      });
+    }
+
+    // Magnetic Buttons
+    document.querySelectorAll('.magnetic-btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        gsap.to(btn, { x: (e.clientX - rect.left - rect.width / 2) * 0.2, y: (e.clientY - rect.top - rect.height / 2) * 0.2, duration: 0.2 });
+      });
+      btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" }));
+    });
+
+    // Canvas
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, particles = [];
+    function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+    class Particle {
+      constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3; this.size = Math.random() * 1.5; }
+      update() { this.x += this.vx; this.y += this.vy; if(this.x < 0) this.x = width; if(this.x > width) this.x = 0; if(this.y < 0) this.y = height; if(this.y > height) this.y = 0; }
+      draw() { ctx.fillStyle = '#cccccc'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); }
+    }
+    for(let i=0; i<40; i++) particles.push(new Particle());
+    function animateCanvas() {
+      ctx.clearRect(0,0,width,height); ctx.strokeStyle = 'rgba(0,0,0,0.04)'; ctx.lineWidth = 1;
+      for(let i=0; i<particles.length; i++) {
+        for(let j=i; j<particles.length; j++) {
+          const d = Math.sqrt((particles[i].x-particles[j].x)**2 + (particles[i].y-particles[j].y)**2);
+          if(d<100) { ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.stroke(); }
+        }
+        particles[i].update(); particles[i].draw();
+      }
+      requestAnimationFrame(animateCanvas);
+    }
+    animateCanvas();
+
+    // AI Terminal - Comprehensive Resume Data Structure
+    const resumeData = {
+      name: "Krishna Sathvik Mantripragada",
+      title: "Senior Data Engineer",
+      yearsExperience: "7+",
+      overview: "Senior Data Engineer with 7+ years building scalable data platforms, ETL/ELT pipelines, and data architectures that power analytics, machine learning, and operational insights. Career spans healthcare and retail domains, working with Fortune 500 companies to process terabytes of data monthly and deliver high-quality datasets to hundreds of business users.",
+      contact: {
+        email: "krishnasathvikm@gmail.com",
+        phone: "(940) 331-8276",
+        linkedin: "linkedin.com/in/krishnasathvik",
+        github: "github.com/KrishnaSathvik",
+        location: "Jefferson City, MO",
+        remote: "Available for remote work globally"
+      },
+      experience: [
+        {
+          role: "Senior Data Engineer",
+          company: "Walgreens Boots Alliance",
+          period: "Feb 2022 – Present",
+          location: "Remote",
+          achievements: [
+            "Design and operate enterprise data platform in Databricks, Snowflake, and Azure processing 10+ TB monthly from 15+ sources; built scalable ETL/ELT pipelines delivering trusted datasets with 99.9% availability for analytics and ML teams",
+            "Build and maintain production dbt transformations and dimensional models; created governed semantic layers and data marts used by 500+ analysts and business users across finance, operations, and supply chain domains",
+            "Implement comprehensive data quality frameworks and monitoring with Python and dbt tests; reduced data incidents 45%, eliminated 200+ hours of monthly remediation, and established best practices adopted across 6 teams",
+            "Partner daily with data scientists to support feature engineering and ML model development; created reusable feature stores and automated training pipelines that cut model deployment time 45% for customer segmentation",
+            "Develop real-time and batch pipelines using Apache Kafka, Airflow, and event streaming patterns; integrated production databases, APIs, and event streams enabling near real-time analytics and operational monitoring",
+            "Orchestrate complex workflows with Apache Airflow including lineage tracking, SLA monitoring, and alerting; improved pipeline success rate from 92% to 99.8% and reduced incident response time 65%",
+            "Drive CI/CD and DataOps adoption via Azure DevOps with Git-based workflows and automated testing; decreased deployment failures 30% and accelerated feature delivery for data products",
+            "Mentor 6 junior engineers on data engineering best practices, code reviews, and operational excellence; established coding standards and practices that improved team velocity 40% and reduced production incidents 50%"
+          ],
+          tech: ["Databricks", "Snowflake", "Azure", "dbt", "Apache Airflow", "Apache Kafka", "Python", "PySpark", "SQL", "Azure DevOps"]
+        },
+        {
+          role: "Analytics Engineer",
+          company: "CVS Health",
+          period: "Oct 2020 – Dec 2021",
+          location: "Remote",
+          achievements: [
+            "Engineered modular dbt transformations and dimensional models in Snowflake processing 7M+ daily records; created reusable analytics-ready datasets and data marts for forecasting, planning, and performance measurement",
+            "Developed Python and SQL-based ETL pipelines with Airflow orchestration; integrated production databases, claims systems, clickstream, and third-party APIs reducing data refresh time from 8 hours to 2 hours",
+            "Implemented data quality frameworks and monitoring; established validation checks, metadata tracking, and automated remediation reducing manual fixes by 30% and improving KPI consistency across dashboards",
+            "Collaborated with data science teams to productionize ML models; delivered feature pipelines with automated validation that raised prediction accuracy 16% and enabled real-time customer personalization",
+            "Delivered certified semantic models and datasets consumed by Tableau and Power BI users; accelerated leadership reporting by 3 days and enabled self-service scenario planning and analytics"
+          ],
+          tech: ["Snowflake", "dbt", "Apache Airflow", "Python", "SQL", "Tableau", "Power BI"]
+        },
+        {
+          role: "Data Science Intern",
+          company: "McKesson Corporation",
+          period: "Mar 2020 – Sep 2020",
+          location: "Denton, TX",
+          achievements: [
+            "Built data pipelines processing 2M+ prescription and utilization records with Python, Spark, and SQL; implemented automated quality gates that improved data accuracy 22% for analytics and forecasting",
+            "Created reusable, versioned feature tables consumed by XGBoost and forecasting models; reduced training time 40%, improved reliability 16%, and became team standard for feature engineering",
+            "Developed monitoring dashboards in Tableau providing real-time visibility into pipeline health and data quality; reduced incident detection from hours to minutes and improved operational response",
+            "Supported supply chain analytics by delivering clean, documented datasets; enabled accurate procurement decisions and improved inventory optimization reducing excess costs 12%"
+          ],
+          tech: ["Python", "Apache Spark", "SQL", "Tableau", "Azure ML", "XGBoost"]
+        },
+        {
+          role: "Software Developer",
+          company: "Inditek Pioneer Solutions",
+          period: "Jun 2018 – Dec 2019",
+          location: "Hyderabad, India",
+          achievements: [
+            "Developed Python and SQL ETL integrations handling 100K+ daily healthcare transactions; delivered stable feeds with 99.8% availability supporting client analytics and reporting",
+            "Optimized SQL queries, stored procedures, and indexes across large datasets; reduced data access latency 28% and improved performance for downstream analytics consumers",
+            "Implemented SDLC best practices including code reviews, testing, and documentation; ensured reliability, maintainability, and scalability of data integrations and processing systems"
+          ],
+          tech: ["Python", "SQL", "ETL", "Healthcare Data"]
+        }
+      ],
+      skills: {
+        "Cloud Data Platforms": {
+          primary: "Azure (Databricks, Synapse, Data Lake, Data Factory)",
+          secondary: "Snowflake, AWS (S3, Glue, Lambda, EMR), GCP, Delta Lake"
+        },
+        "Data Transformation": {
+          primary: "dbt (3+ years production experience), SQL, PySpark",
+          secondary: "Python, dimensional modeling, data quality testing"
+        },
+        "Orchestration & Streaming": {
+          primary: "Apache Airflow, Apache Kafka, Apache Flink",
+          secondary: "Azure Data Factory, real-time pipelines, event-driven architectures"
+        },
+        "Programming": {
+          primary: "Python (pandas, scripting), SQL, Scala, Java (JVM experience)"
+        },
+        "ML/AI": {
+          primary: "Feature engineering, MLOps practices, model productionization support"
+        },
+        "Analytics & BI": {
+          primary: "Power BI, Tableau, semantic layers, metrics modeling, self-service analytics"
+        },
+        "DevOps & Governance": {
+          primary: "Git, CI/CD, automated testing, data quality frameworks, GDPR/CCPA compliance"
+        }
+      },
+      domainExperience: {
+        healthcare: "Pharmacy data, claims processing, patient analytics, compliance-heavy environments",
+        retail: "Customer analytics, supply chain, operational reporting, marketing segmentation"
+      },
+      coreStrengths: [
+        "Cross-functional collaboration with business stakeholders, data scientists, and BI teams",
+        "Building self-service analytics infrastructure and semantic layers",
+        "Implementing data quality and governance frameworks",
+        "Translating business requirements into scalable technical solutions",
+        "Mentoring junior engineers and establishing best practices",
+        "Agile/DataOps methodologies with CI/CD practices"
+      ],
+      education: [
+        {
+          degree: "Master of Science in Computer Science",
+          school: "University of North Texas",
+          location: "Denton, TX",
+          year: "2021",
+          focus: "Data Science & Analytics, Machine Learning, Big Data Processing"
+        },
+        {
+          degree: "Bachelor of Technology in Information Technology",
+          school: "GITAM University",
+          location: "Visakhapatnam, India",
+          year: "2019"
+        }
+      ],
+      certifications: [
+        "Microsoft Azure Data Engineer Associate",
+        "Microsoft Azure AI Engineer Associate",
+        "O'Reilly ChatGPT Data Analysis"
+      ],
+      projects: [
+        {
+          name: "TrailVerse",
+          description: "AI-powered National Parks Explorer platform with 470+ parks",
+          tech: ["React 18.3", "Node.js", "MongoDB", "OpenAI GPT-4", "Claude"]
+        },
+        {
+          name: "ApplyTrak",
+          description: "Production-ready job tracking application",
+          tech: ["React 19", "TypeScript", "Supabase"]
+        }
+      ],
+      aiProjects: [
+        {
+          name: "RAG Chatbot - Interview Prep Assistant",
+          description: "Advanced dual-persona RAG chatbot for interview preparation with 557+ knowledge chunks, dual AI profiles (GPT-4 + Claude), and voice transcription capabilities",
+          tech: ["RAG", "OpenAI GPT-4", "Claude", "LangChain", "Vector Databases", "Embedding Models", "Chunking Strategies"]
+        },
+        {
+          name: "Generative AI Applications",
+          description: "Building production applications with GPT-4, Claude, and other LLMs. Exploring prompt engineering, fine-tuning, and agent-based architectures for real-world use cases",
+          tech: ["OpenAI API", "Claude", "LLM Agents", "Prompt Engineering", "Fine-tuning"]
+        },
+        {
+          name: "AI Research & Continuous Learning",
+          description: "Staying current with latest AI/ML research, experimenting with new architectures, and contributing to open-source AI projects",
+          tech: ["Research Papers", "Open Source", "Experimentation", "Knowledge Sharing"]
+        }
+      ],
+      aiSkills: {
+        "RAG Systems": "Building retrieval-augmented generation systems with vector databases, embedding models, and advanced chunking strategies. Created RAG chatbot with 557+ knowledge chunks and dual AI profiles.",
+        "LLM Integration": "Production-ready integrations with GPT-4, Claude, and open-source LLMs. Focus on cost optimization, performance, and prompt engineering.",
+        "MLOps for AI": "Applying data engineering principles to AI/ML workflows - versioning, monitoring, and deployment of AI models. Experience with MLflow, feature stores, and automated training pipelines.",
+        "Vector Databases": "Working with vector databases for semantic search and RAG applications. Integrating embedding models for knowledge retrieval.",
+        "LangChain": "Using LangChain for building LLM applications, managing prompts, chains, and agents for complex AI workflows."
+      }
+    };
+
+    // AI Terminal - Enhanced Query Handler with Conversational Responses
+    const aiInput = document.getElementById('ai-input');
+    const termOut = document.getElementById('terminal-output');
+    
+    function findAnswer(query) {
+      const lQuery = query.toLowerCase();
+      
+      // Contact queries - conversational
+      if (lQuery.includes('contact') || lQuery.includes('email') || lQuery.includes('phone') || lQuery.includes('reach') || lQuery.includes('connect')) {
+        return `You can reach Krishna at:\n\nEmail: ${resumeData.contact.email}\nPhone: ${resumeData.contact.phone}\nLinkedIn: ${resumeData.contact.linkedin}\nGitHub: ${resumeData.contact.github}\nLocation: ${resumeData.contact.location}\n\n${resumeData.contact.remote}. He's responsive and enjoys discussing data engineering challenges and opportunities.`;
+      }
+      
+      // Experience queries - detailed and conversational
+      if (lQuery.includes('experience') || lQuery.includes('work') || lQuery.includes('role') || lQuery.includes('job') || lQuery.includes('background')) {
+        let response = `Krishna has ${resumeData.yearsExperience} years of experience building enterprise data platforms. Here's his career journey:\n\n`;
+        resumeData.experience.forEach((exp, idx) => {
+          response += `${exp.role} at ${exp.company} (${exp.period})\n`;
+          response += `   Location: ${exp.location}\n`;
+          response += `   Key Technologies: ${exp.tech.slice(0, 5).join(', ')}\n`;
+          if (idx === 0) {
+            response += `   Current Focus: ${exp.achievements[0].substring(0, 120)}...\n`;
+            response += `   Impact: Serving 500+ analysts, processing 10+ TB monthly, 99.9% availability\n`;
+          }
+          response += `\n`;
+        });
+        response += `His experience spans healthcare and retail domains, working with Fortune 500 companies to process terabytes of data monthly.`;
+        return response;
+      }
+      
+      // Skills queries - detailed breakdown
+      if (lQuery.includes('skill') || lQuery.includes('tech') || lQuery.includes('stack') || lQuery.includes('technology') || lQuery.includes('expertise')) {
+        let response = `Krishna's technical expertise spans multiple domains:\n\n`;
+        Object.entries(resumeData.skills).forEach(([category, details]) => {
+          if (typeof details === 'object' && details.primary) {
+            response += `${category}:\n   Primary: ${details.primary}\n`;
+            if (details.secondary) response += `   Also: ${details.secondary}\n`;
+          } else {
+            response += `${category}: ${details}\n`;
+          }
+          response += `\n`;
+        });
+        response += `\nSpecialization: Deep expertise in Azure ecosystem with 3+ years production dbt experience. Strong in both batch and real-time data processing.`;
+        return response;
+      }
+      
+      // Specific technology queries - detailed insights
+      const techKeywords = {
+        'dbt': `dbt (Data Build Tool): Krishna has 3+ years of production experience with dbt. At Walgreens, he builds and maintains production dbt transformations and dimensional models, creating governed semantic layers used by 500+ analysts. He's established dbt testing frameworks that reduced data incidents by 45% and eliminated 200+ hours of monthly remediation.`,
+        'azure': `Azure: Primary cloud platform with deep expertise. Currently operates enterprise data platform using Azure Databricks, Azure Synapse, Azure Data Lake, and Azure Data Factory. Processes 10+ TB monthly with 99.9% availability. Also experienced with Azure ML, Azure DevOps for CI/CD, and Azure SQL Database.`,
+        'databricks': `Azure Databricks: Core platform for large-scale data processing. Krishna designs and operates enterprise data platform in Databricks processing 10+ TB monthly from 15+ sources. Uses Databricks SQL, Delta Lake, and PySpark for scalable ETL/ELT pipelines.`,
+        'snowflake': `Snowflake: Extensive experience building data warehouses and analytics platforms. At Walgreens, uses Snowflake alongside Databricks for the enterprise data platform. At CVS, engineered modular dbt transformations processing 7M+ daily records in Snowflake.`,
+        'python': `Python: Primary programming language for data engineering. Used extensively for ETL pipelines, data processing with pandas, automation scripts, data quality frameworks, and ML model support. Has optimized Python-based pipelines reducing processing time significantly.`,
+        'sql': `SQL: Expert-level SQL for data transformation, query optimization, and dimensional modeling. Writes production SQL in dbt, optimized queries reducing costs by 22% at Walgreens. Experienced with Azure SQL, PostgreSQL, MySQL, Oracle, and Snowflake SQL.`,
+        'airflow': `Apache Airflow: Primary orchestration tool. Orchestrates complex workflows with lineage tracking, SLA monitoring, and alerting. Improved pipeline success rate from 92% to 99.8% and reduced incident response time by 65%.`,
+        'kafka': `Apache Kafka: Used for real-time and batch pipelines with event streaming patterns. Integrates production databases, APIs, and event streams enabling near real-time analytics and operational monitoring.`,
+        'spark': `Apache Spark / PySpark: For large-scale distributed data processing. Used PySpark in Databricks for ETL/ELT pipelines. Also used Spark at McKesson for processing 2M+ prescription records.`,
+        'power bi': `Power BI: Creates semantic models and datasets consumed by business users. At CVS, delivered certified datasets that accelerated leadership reporting by 3 days. Enables self-service analytics for hundreds of users.`,
+        'tableau': `Tableau: Extensive experience building analytics dashboards. At CVS, delivered datasets consumed by Tableau users. At McKesson, developed monitoring dashboards providing real-time pipeline health visibility.`,
+        'machine learning': `ML/AI: Supports data science teams with feature engineering and MLOps. Created reusable feature stores and automated training pipelines cutting model deployment time by 45%. Experience with Azure ML, XGBoost, forecasting models achieving 14-16% accuracy improvements.`,
+        'rag': `RAG (Retrieval-Augmented Generation): Krishna builds RAG systems for production applications. Created an advanced dual-persona RAG chatbot for interview preparation with 557+ knowledge chunks, using vector databases, embedding models, and advanced chunking strategies. Integrates GPT-4 and Claude with LangChain for complex AI workflows.`,
+        'llm': `LLM (Large Language Models): Production-ready integrations with GPT-4, Claude, and open-source LLMs. Focuses on cost optimization, performance, and prompt engineering. Building applications with agent-based architectures and exploring fine-tuning techniques.`,
+        'genai': `GenAI (Generative AI): Actively exploring and building with generative AI technologies. Creating production applications with GPT-4, Claude, and other LLMs. Working on prompt engineering, fine-tuning, and agent-based architectures for real-world use cases.`,
+        'langchain': `LangChain: Using LangChain for building LLM applications, managing prompts, chains, and agents for complex AI workflows. Integrating with vector databases and embedding models for RAG systems.`,
+        'openai': `OpenAI: Production integrations with OpenAI GPT-4 API. Building applications with prompt engineering, cost optimization, and performance tuning. Used in RAG systems, chatbots, and generative AI applications.`,
+        'vector database': `Vector Databases: Working with vector databases for semantic search and RAG applications. Integrating embedding models for knowledge retrieval in production systems. Part of RAG chatbot architecture with 557+ knowledge chunks.`,
+        'huggingface': `HuggingFace: Exploring open-source LLMs and models from HuggingFace. Integrating HuggingFace models into AI/ML workflows and staying current with latest model releases.`,
+        'mlops': `MLOps for AI: Applying data engineering principles to AI/ML workflows including versioning, monitoring, and deployment of AI models. Experience with MLflow, feature stores, and automated training pipelines that cut model deployment time by 45%.`,
+        'ai/ml': `AI/ML & GenAI: Beyond professional data engineering, Krishna actively explores AI/ML, GenAI, and RAG technologies. Building production applications, experimenting with cutting-edge techniques, and contributing to the AI community. Projects include RAG chatbots, LLM integrations, and MLOps workflows.`,
+        'etl': `ETL/ELT: Designs and operates scalable ETL/ELT pipelines processing terabytes of data. Built pipelines handling 10+ TB monthly, 7M+ daily records. Reduced data refresh time from 8 hours to 2 hours. Expert in both batch and real-time processing patterns.`,
+        'data quality': `Data Quality: Implements comprehensive frameworks with Python and dbt tests. Reduced data incidents by 45%, eliminated 200+ hours monthly remediation. Established validation checks, metadata tracking, and automated remediation.`,
+        'mentoring': `Mentoring: Actively mentors 6 junior engineers on data engineering best practices, code reviews, and operational excellence. Established coding standards improving team velocity by 40% and reducing production incidents by 50%.`
+      };
+      
+      for (const [keyword, answer] of Object.entries(techKeywords)) {
+        if (lQuery.includes(keyword)) {
+          return answer;
+        }
+      }
+      
+      // Domain experience queries
+      if (lQuery.includes('domain') || lQuery.includes('industry') || lQuery.includes('healthcare') || lQuery.includes('retail')) {
+        return `Domain Experience:\n\nHealthcare:\n${resumeData.domainExperience.healthcare}\n\nRetail:\n${resumeData.domainExperience.retail}\n\nKrishna has worked with Fortune 500 companies in both domains, processing sensitive data with compliance requirements (GDPR/CCPA).`;
+      }
+      
+      // Core strengths queries
+      if (lQuery.includes('strength') || lQuery.includes('strengths') || lQuery.includes('what makes') || lQuery.includes('best at')) {
+        return `Core Strengths:\n\n${resumeData.coreStrengths.map((s, i) => `${i + 1}. ${s}`).join('\n\n')}\n\nThese strengths enable Krishna to bridge technical implementation with business value, working effectively across teams.`;
+      }
+      
+      // Education queries
+      if (lQuery.includes('education') || lQuery.includes('degree') || lQuery.includes('university') || lQuery.includes('school')) {
+        let response = `Educational Background:\n\n`;
+        resumeData.education.forEach(edu => {
+          response += `${edu.degree}\n   ${edu.school} (${edu.location})\n   Graduated: ${edu.year}\n`;
+          if (edu.focus) response += `   Focus: ${edu.focus}\n`;
+          response += `\n`;
+        });
+        return response;
+      }
+      
+      // Certification queries
+      if (lQuery.includes('certification') || lQuery.includes('cert') || lQuery.includes('certified')) {
+        return `Professional Certifications:\n\n${resumeData.certifications.map(c => `• ${c}`).join('\n\n')}\n\nThese certifications validate expertise in Azure data engineering and AI solutions.`;
+      }
+      
+      // Project queries
+      if (lQuery.includes('project') || lQuery.includes('built') || lQuery.includes('application') || lQuery.includes('portfolio')) {
+        let response = `Featured Projects:\n\n`;
+        resumeData.projects.forEach(proj => {
+          response += `${proj.name}\n   ${proj.description}\n   Tech Stack: ${proj.tech.join(', ')}\n\n`;
+        });
+        response += `These are production applications demonstrating full-stack capabilities beyond data engineering.`;
+        return response;
+      }
+      
+      // AI/ML Projects queries
+      if (lQuery.includes('ai project') || lQuery.includes('ml project') || lQuery.includes('genai') || lQuery.includes('rag project') || lQuery.includes('ai/ml')) {
+        let response = `AI/ML & GenAI Personal Projects:\n\n`;
+        resumeData.aiProjects.forEach(proj => {
+          response += `${proj.name}\n   ${proj.description}\n   Technologies: ${proj.tech.join(', ')}\n\n`;
+        });
+        response += `These projects demonstrate Krishna's exploration of cutting-edge AI technologies, building production-ready applications with RAG, LLMs, and MLOps principles.`;
+        return response;
+      }
+      
+      // Availability queries
+      if (lQuery.includes('available') || lQuery.includes('hiring') || lQuery.includes('opportunity') || lQuery.includes('open') || lQuery.includes('looking')) {
+        return `Availability Status:\n\n${resumeData.contact.remote}\n\nCurrently: ${resumeData.experience[0].role} at ${resumeData.experience[0].company} (${resumeData.experience[0].period})\n\nOpen to discussing new opportunities, especially in:\n• Senior/Lead Data Engineer roles\n• Data platform architecture positions\n• Teams building scalable analytics infrastructure\n\nContact: ${resumeData.contact.email}`;
+      }
+      
+      // Overview/Summary queries
+      if (lQuery.includes('overview') || lQuery.includes('summary') || lQuery.includes('tell me about') || lQuery.includes('who is')) {
+        return `${resumeData.overview}\n\nKey Highlights:\n• ${resumeData.yearsExperience} years building enterprise data platforms\n• Processes 10+ TB monthly, serving 500+ business users\n• Expert in Azure, dbt, Airflow, and modern data stack\n• Strong track record in healthcare and retail domains\n• Proven ability to mentor teams and establish best practices`;
+      }
+      
+      // Default response
+      return `I can help you learn about Krishna's:\n\n• Professional Experience & Career Journey\n• Technical Skills & Expertise\n• Domain Experience (Healthcare & Retail)\n• Core Strengths & Collaboration Style\n• Education & Certifications\n• Projects & Applications\n• Contact Information & Availability\n\nTry asking:\n"Tell me about your experience with dbt"\n"What are your core strengths?"\n"Are you available for opportunities?"\n\nOr ask about specific technologies like Azure, Databricks, Snowflake, Python, Airflow, etc.`;
+    }
+    
+    async function handleCommand(cmd) {
+      if (!cmd.trim()) return;
+      
+      termOut.innerHTML += `<div><span class="text-blue-400">➜</span> <span class="text-gray-300">${cmd}</span></div>`;
+      const loadId = 'l-'+Date.now();
+      termOut.innerHTML += `<div id="${loadId}" class="text-gray-500 italic text-xs">Processing...</div>`;
+      termOut.scrollTop = termOut.scrollHeight;
+      
+      // Simulate processing delay
+      await new Promise(r => setTimeout(r, 800));
+      document.getElementById(loadId).remove();
+      
+      // Get answer from resume data
+      const answer = findAnswer(cmd);
+      const formattedAnswer = answer.split('\n').map(line => 
+        line.trim() ? `<div class="text-gray-200">${line}</div>` : '<div class="h-1"></div>'
+      ).join('');
+      
+      termOut.innerHTML += `<div class="border-l-2 border-accent pl-3 py-2 space-y-1">${formattedAnswer}</div>`;
+      termOut.scrollTop = termOut.scrollHeight;
+    }
+    
+    aiInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && aiInput.value.trim()) {
+        handleCommand(aiInput.value);
+        aiInput.value = '';
+      }
+    });
+    
+    document.querySelectorAll('.quick-prompt').forEach(b => {
+      b.addEventListener('click', () => handleCommand(b.innerText.replace(/"/g, "")));
+    });
+  </script>
 </body>
 </html>
